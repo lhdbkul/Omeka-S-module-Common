@@ -150,6 +150,7 @@ return [
             'jSend' => Mvc\Controller\Plugin\JSend::class,
             'messenger' => Mvc\Controller\Plugin\Messenger::class,
             'sendFile' => Mvc\Controller\Plugin\SendFile::class,
+            'sendFilePrivate' => Mvc\Controller\Plugin\SendFilePrivate::class,
         ],
         'factories' => [
             'checkDestinationDir' => Service\ControllerPlugin\CheckDestinationDirFactory::class,
