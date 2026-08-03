@@ -25,25 +25,28 @@ class FieldsTextarea extends ArrayTextarea
     /**
      * Map of the friendly type names to the laminas form element classes.
      *
+     * Use optional variants to avoid complex options.
+     *
      * @var array
      */
     protected $typeClasses = [
+        'checkbox' => OptionalCheckbox::class,
+        'date' => OptionalDate::class,
+        // DateTime is deprecated by whatwg, so use date time local.
+        'datetime' => OptionalDateTimeLocal::class,
+        'email' => OptionalEmail::class,
+        'hidden' => Element\Hidden::class,
+        'multicheckbox' => OptionalMultiCheckbox::class,
+        'number' => OptionalNumber::class,
+        'password' => Element\Password::class,
+        'phone' => Element\Tel::class,
+        'radio' => OptionalRadio::class,
+        'select' => OptionalSelect::class,
+        'tel' => Element\Tel::class,
         'text' => Element\Text::class,
         'textarea' => Element\Textarea::class,
-        'email' => Element\Email::class,
-        'tel' => Element\Tel::class,
-        'phone' => Element\Tel::class,
-        'number' => Element\Number::class,
-        'url' => Element\Url::class,
-        'date' => Element\Date::class,
-        'time' => Element\Time::class,
-        'datetime' => Element\DateTimeLocal::class,
-        'password' => Element\Password::class,
-        'hidden' => Element\Hidden::class,
-        'select' => Element\Select::class,
-        'radio' => Element\Radio::class,
-        'checkbox' => Element\Checkbox::class,
-        'multicheckbox' => Element\MultiCheckbox::class,
+        'time' => OptionalTime::class,
+        'url' => OptionalUrl::class,
     ];
 
     /**
