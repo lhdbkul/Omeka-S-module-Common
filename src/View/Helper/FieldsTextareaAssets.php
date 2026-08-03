@@ -44,7 +44,7 @@ class FieldsTextareaAssets extends AbstractHelper
                 'editAsText' => $translate('Edit as text'), // @translate
                 'preview' => $translate('Preview'), // @translate
                 'hidePreview' => $translate('Hide preview'), // @translate
-                'send' => $translate('Send message'), // @translate
+                'submit' => $translate('Submit'), // @translate
                 'addField' => $translate('Add a field'), // @translate
                 'colName' => $translate('name'), // @translate
                 'colLabel' => $translate('label'), // @translate

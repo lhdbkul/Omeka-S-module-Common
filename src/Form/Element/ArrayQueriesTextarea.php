@@ -37,7 +37,8 @@ class ArrayQueriesTextarea extends ArrayTextarea
         }
 
         // The javascript editor targets the textarea by this class and reads
-        // the options through data attributes (see arrayQueriesTextareaAssets).
+        // the options through data attributes; the assets are enqueued by the
+        // render helper FormArrayQueriesTextarea.
         $class = trim((string) $this->getAttribute('class'));
         if (strpos(" $class ", ' common-array-queries-textarea ') === false) {
             $this->setAttribute('class', trim($class . ' common-array-queries-textarea'));

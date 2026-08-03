@@ -5,7 +5,10 @@ namespace Common\View\Helper;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
- * Enqueue the assets of the ArrayQueriesTextarea element.
+ * Enqueue assets for ArrayQueriesTextarea element once per request.
+
+ * @see \Common\Form\Element\ArrayQueriesTextarea
+ * @see \Common\Form\View\Helper\FormArrayQueriesTextarea
  */
 class ArrayQueriesTextareaAssets extends AbstractHelper
 {
@@ -42,6 +45,7 @@ class ArrayQueriesTextareaAssets extends AbstractHelper
             ],
         ];
 
+        // Core assets required by the query sidebar and editor of this element.
         $view->headLink()
             ->prependStylesheet($assetUrl('css/advanced-search.css', 'Omeka'))
             ->appendStylesheet($assetUrl('css/common-array-queries-textarea.css', 'Common'));

@@ -205,18 +205,18 @@
 
     function makePair(pair, keyPlaceholder, valuePlaceholder) {
         var $ = window.jQuery;
-        var $pair = $('<div class="cf-pair"></div>');
-        $pair.append($('<input class="cf-pk" type="text">').attr('placeholder', keyPlaceholder).val(pair.k));
-        $pair.append($('<input class="cf-pv" type="text">').attr('placeholder', valuePlaceholder).val(pair.v));
-        $pair.append('<button type="button" class="cf-pair-del o-icon-delete" title="' + t('remove', 'Remove') + '"></button>');
+        var $pair = $('<div class="cft-pair"></div>');
+        $pair.append($('<input class="cft-pk" type="text">').attr('placeholder', keyPlaceholder).val(pair.k));
+        $pair.append($('<input class="cft-pv" type="text">').attr('placeholder', valuePlaceholder).val(pair.v));
+        $pair.append('<button type="button" class="cft-pair-del o-icon-delete" title="' + t('remove', 'Remove') + '"></button>');
         return $pair;
     }
 
     function makeGroup(kind, title, keyPlaceholder, valuePlaceholder, pairs) {
         var $ = window.jQuery;
-        var $sub = $('<div class="cf-sub"></div>').attr('data-kind', kind).attr('data-key-ph', keyPlaceholder).attr('data-val-ph', valuePlaceholder);
-        $sub.append('<span class="cf-sub-title">' + title + '</span>');
-        var $pairs = $('<div class="cf-pairs"></div>');
+        var $sub = $('<div class="cft-sub"></div>').attr('data-kind', kind).attr('data-key-ph', keyPlaceholder).attr('data-val-ph', valuePlaceholder);
+        $sub.append('<span class="cft-sub-title">' + title + '</span>');
+        var $pairs = $('<div class="cft-pairs"></div>');
         pairs.forEach(function (p) { $pairs.append(makePair(p, keyPlaceholder, valuePlaceholder)); });
         $sub.append($pairs);
         if (!pairs.length) {
@@ -228,28 +228,28 @@
     function makeRow(data) {
         data = data || { name: '', type: 'text', label: '', required: false, values: [], options: [], attributes: [] };
         var $ = window.jQuery;
-        var $row = $('<div class="cf-row"></div>');
-        var $line1 = $('<div class="cf-line cf-line1"></div>');
+        var $row = $('<div class="cft-row"></div>');
+        var $line1 = $('<div class="cft-line cft-line1"></div>');
 
-        $line1.append('<span class="cf-drag" title="' + t('drag', 'Move') + '">☰</span>');
-        $line1.append('<span class="cf-move"><button type="button" class="cf-up" title="' + t('moveUp', 'Move up') + '">▲</button><button type="button" class="cf-down" title="' + t('moveDown', 'Move down') + '">▼</button></span>');
-        $line1.append($('<input class="cf-name" type="text">').attr('placeholder', t('colName', 'name')).val(data.name));
-        $line1.append($('<input class="cf-label" type="text">').attr('placeholder', t('colLabel', 'label')).val(data.label));
-        var $type = $('<select class="cf-type"></select>');
+        $line1.append('<span class="cft-drag" title="' + t('drag', 'Move') + '">☰</span>');
+        $line1.append('<span class="cft-move"><button type="button" class="cft-up" title="' + t('moveUp', 'Move up') + '">▲</button><button type="button" class="cft-down" title="' + t('moveDown', 'Move down') + '">▼</button></span>');
+        $line1.append($('<input class="cft-name" type="text">').attr('placeholder', t('colName', 'name')).val(data.name));
+        $line1.append($('<input class="cft-label" type="text">').attr('placeholder', t('colLabel', 'label')).val(data.label));
+        var $type = $('<select class="cft-type"></select>');
         types.forEach(function (ty) {
             $type.append($('<option></option>').attr('value', ty).text(ty).prop('selected', ty === data.type));
         });
         $line1.append($type);
         var key = t('colKey', 'key');
         var val = t('colValue', 'value');
-        var $subactions = $('<div class="cf-subactions"></div>');
-        $subactions.append('<button type="button" class="cf-remove-field o-icon-delete" title="' + t('deleteField', 'Delete this field') + '"></button>');
-        $subactions.append($('<label class="cf-required-wrap"><input type="checkbox" class="cf-required"> ' + t('colRequired', 'required') + '</label>').find('.cf-required').prop('checked', data.required).end());
-        $subactions.append('<button type="button" class="cf-subaction o-icon-add" data-kind="values">' + t('addValue', 'Add a value') + '</button>');
-        $subactions.append('<button type="button" class="cf-subaction o-icon-add" data-kind="attributes">' + t('addAttribute', 'Add an attribute') + '</button>');
-        $subactions.append('<button type="button" class="cf-subaction o-icon-add" data-kind="options">' + t('addOption', 'Add an option') + '</button>');
+        var $subactions = $('<div class="cft-subactions"></div>');
+        $subactions.append('<button type="button" class="cft-remove-field o-icon-delete" title="' + t('deleteField', 'Delete this field') + '"></button>');
+        $subactions.append($('<label class="cft-required-wrap"><input type="checkbox" class="cft-required"> ' + t('colRequired', 'required') + '</label>').find('.cft-required').prop('checked', data.required).end());
+        $subactions.append('<button type="button" class="cft-subaction o-icon-add" data-kind="values">' + t('addValue', 'Add a value') + '</button>');
+        $subactions.append('<button type="button" class="cft-subaction o-icon-add" data-kind="attributes">' + t('addAttribute', 'Add an attribute') + '</button>');
+        $subactions.append('<button type="button" class="cft-subaction o-icon-add" data-kind="options">' + t('addOption', 'Add an option') + '</button>');
 
-        var $groups = $('<div class="cf-groups"></div>');
+        var $groups = $('<div class="cft-groups"></div>');
         $groups.append(makeGroup('values', t('valuesTitle', 'Values'), val, t('colLabel', 'label'), data.values));
         $groups.append(makeGroup('attributes', t('attributesTitle', 'Attributes'), key, val, data.attributes));
         $groups.append(makeGroup('options', t('optionsTitle', 'Options'), key, val, data.options));
@@ -260,31 +260,31 @@
     }
 
     function toggleValues($row) {
-        var type = $row.find('.cf-type').val();
+        var type = $row.find('.cft-type').val();
         var withValues = typesWithValues.indexOf(type) !== -1;
-        $row.find('.cf-subaction[data-kind="values"]').toggle(withValues);
-        var $values = $row.find('.cf-sub[data-kind="values"]');
+        $row.find('.cft-subaction[data-kind="values"]').toggle(withValues);
+        var $values = $row.find('.cft-sub[data-kind="values"]');
         if (!withValues) {
             $values.hide();
-        } else if ($values.find('.cf-pair').length) {
+        } else if ($values.find('.cft-pair').length) {
             $values.show();
         }
     }
 
     function readPairs($row, kind) {
         var $ = window.jQuery;
-        return $row.find('.cf-sub[data-kind="' + kind + '"] .cf-pair').map(function () {
+        return $row.find('.cft-sub[data-kind="' + kind + '"] .cft-pair').map(function () {
             var $p = $(this);
-            return { k: $p.find('.cf-pk').val(), v: $p.find('.cf-pv').val() };
+            return { k: $p.find('.cft-pk').val(), v: $p.find('.cft-pv').val() };
         }).get();
     }
 
     function readRow($row) {
         return {
-            name: $row.find('.cf-name').val(),
-            type: $row.find('.cf-type').val(),
-            label: $row.find('.cf-label').val(),
-            required: $row.find('.cf-required').is(':checked'),
+            name: $row.find('.cft-name').val(),
+            type: $row.find('.cft-type').val(),
+            label: $row.find('.cft-label').val(),
+            required: $row.find('.cft-required').is(':checked'),
             values: readPairs($row, 'values'),
             options: readPairs($row, 'options'),
             attributes: readPairs($row, 'attributes')
@@ -293,7 +293,7 @@
 
     function serialize($rows, textarea) {
         var map = {};
-        $rows.find('.cf-row').each(function () {
+        $rows.find('.cft-row').each(function () {
             var entry = rowToEntry(readRow(window.jQuery(this)));
             if (entry) {
                 map[entry.name] = entry.value;
@@ -318,11 +318,11 @@
             return $select;
         }
         if (type === 'radio' || type === 'multicheckbox') {
-            var $wrap = $('<span class="cf-preview-choices"></span>');
+            var $wrap = $('<span class="cft-preview-choices"></span>');
             var itype = type === 'radio' ? 'radio' : 'checkbox';
             (field.values || []).forEach(function (p) {
                 $wrap.append(
-                    $('<label class="cf-preview-choice"></label>')
+                    $('<label class="cft-preview-choice"></label>')
                         .append($('<input disabled>').attr('type', itype))
                         .append(document.createTextNode(' ' + (p.v || p.k)))
                 );
@@ -342,19 +342,19 @@
 
     function renderPreview(fields) {
         var $ = window.jQuery;
-        var $form = $('<div class="cf-preview"></div>');
+        var $form = $('<div class="cft-preview"></div>');
         fields.forEach(function (field) {
             if (field.type === 'hidden' || !(field.name || '').trim()) {
                 return;
             }
             var labelText = (field.label || field.name) + (field.required ? ' *' : '');
             $form.append(
-                $('<div class="cf-preview-field"></div>')
+                $('<div class="cft-preview-field"></div>')
                     .append($('<label></label>').text(labelText))
                     .append(previewInput(field))
             );
         });
-        $form.append('<div class="cf-preview-actions"><button type="button" disabled>' + t('send', 'Send message') + '</button></div>');
+        $form.append('<div class="cft-preview-actions"><button type="button" disabled>' + t('submit', 'Submit') + '</button></div>');
         return $form;
     }
 
@@ -374,9 +374,9 @@
 
         var $toggle = $('<button type="button" class="button common-fields-textarea-toggle">' + t('editAsForm', 'Edit as a form') + '</button>');
         var $editor = $('<div class="common-fields-textarea-editor" style="display:none;"></div>');
-        var $rows = $('<div class="cf-rows"></div>');
-        var $add = $('<button type="button" class="button cf-add o-icon-add" style="display:none;">' + t('addField', 'Add a field') + '</button>');
-        var $preview = $('<button type="button" class="button cf-preview-toggle">' + t('preview', 'Preview') + '</button>');
+        var $rows = $('<div class="cft-rows"></div>');
+        var $add = $('<button type="button" class="button cft-add o-icon-add" style="display:none;">' + t('addField', 'Add a field') + '</button>');
+        var $preview = $('<button type="button" class="button cft-preview-toggle">' + t('preview', 'Preview') + '</button>');
         var $actions = $('<div class="common-fields-textarea-actions"></div>').append($add);
         // The toggle only makes sense when both modes are available.
         if (enableForm && enableYaml) {
@@ -385,7 +385,7 @@
         if (enablePreview) {
             $actions.append($preview);
         }
-        var $previewPanel = $('<div class="cf-preview-panel" style="display:none;"></div>');
+        var $previewPanel = $('<div class="cft-preview-panel" style="display:none;"></div>');
         $editor.append($rows);
         $textarea.after($editor);
         $editor.after($actions);
@@ -394,7 +394,7 @@
         function currentFields() {
             var list = [];
             if ($editor.is(':visible')) {
-                $rows.find('.cf-row').each(function () {
+                $rows.find('.cft-row').each(function () {
                     var data = readRow($(this));
                     if ((data.name || '').trim()) {
                         list.push(data);
@@ -431,28 +431,28 @@
             $previewPanel.empty().append(renderPreview(currentFields()));
         }
         $editor.on('input change', refreshPreview);
-        $editor.on('click', '.cf-remove-field, .cf-pair-del, .cf-subaction, .cf-up, .cf-down, .cf-add', function () {
+        $editor.on('click', '.cft-remove-field, .cft-pair-del, .cft-subaction, .cft-up, .cft-down, .cft-add', function () {
             window.setTimeout(refreshPreview, 0);
         });
 
         // Disable the up button of the first field and the down button of the
         // last field.
         function updateMoveButtons() {
-            var $all = $rows.find('.cf-row');
-            $all.find('.cf-up, .cf-down').prop('disabled', false);
-            $all.first().find('.cf-up').prop('disabled', true);
-            $all.last().find('.cf-down').prop('disabled', true);
+            var $all = $rows.find('.cft-row');
+            $all.find('.cft-up, .cft-down').prop('disabled', false);
+            $all.first().find('.cft-up').prop('disabled', true);
+            $all.last().find('.cft-down').prop('disabled', true);
         }
 
         // Native drag and drop to reorder fields (jQuery UI sortable is not
         // loaded on the settings pages).
         var dragged = null;
-        $editor.on('mousedown', '.cf-drag', function () {
-            $(this).closest('.cf-row').attr('draggable', 'true');
+        $editor.on('mousedown', '.cft-drag', function () {
+            $(this).closest('.cft-row').attr('draggable', 'true');
         });
-        $editor.on('dragstart', '.cf-row', function (event) {
+        $editor.on('dragstart', '.cft-row', function (event) {
             dragged = this;
-            $(this).addClass('cf-dragging');
+            $(this).addClass('cft-dragging');
             try {
                 event.originalEvent.dataTransfer.effectAllowed = 'move';
                 event.originalEvent.dataTransfer.setData('text/plain', '');
@@ -460,13 +460,13 @@
                 // Ignore browsers refusing setData.
             }
         });
-        $editor.on('dragend', '.cf-row', function () {
-            $(this).removeAttr('draggable').removeClass('cf-dragging');
+        $editor.on('dragend', '.cft-row', function () {
+            $(this).removeAttr('draggable').removeClass('cft-dragging');
             dragged = null;
             updateMoveButtons();
             serialize($rows, textarea);
         });
-        $editor.on('dragover', '.cf-row', function (event) {
+        $editor.on('dragover', '.cft-row', function (event) {
             if (!dragged || dragged === this) {
                 return;
             }
@@ -477,39 +477,39 @@
         });
 
         $editor.on('input change', 'input, select', function () {
-            if ($(this).hasClass('cf-type')) {
-                toggleValues($(this).closest('.cf-row'));
+            if ($(this).hasClass('cft-type')) {
+                toggleValues($(this).closest('.cft-row'));
             }
             serialize($rows, textarea);
         });
-        $editor.on('click', '.cf-remove-field', function () {
-            $(this).closest('.cf-row').remove();
+        $editor.on('click', '.cft-remove-field', function () {
+            $(this).closest('.cft-row').remove();
             updateMoveButtons();
             serialize($rows, textarea);
         });
-        $editor.on('click', '.cf-pair-del', function () {
-            var $sub = $(this).closest('.cf-sub');
-            $(this).closest('.cf-pair').remove();
-            if (!$sub.find('.cf-pair').length) {
+        $editor.on('click', '.cft-pair-del', function () {
+            var $sub = $(this).closest('.cft-sub');
+            $(this).closest('.cft-pair').remove();
+            if (!$sub.find('.cft-pair').length) {
                 $sub.hide();
             }
             serialize($rows, textarea);
         });
-        $editor.on('click', '.cf-subaction', function () {
+        $editor.on('click', '.cft-subaction', function () {
             var kind = $(this).attr('data-kind');
-            var $sub = $(this).closest('.cf-row').find('.cf-sub[data-kind="' + kind + '"]');
+            var $sub = $(this).closest('.cft-row').find('.cft-sub[data-kind="' + kind + '"]');
             $sub.show();
-            $sub.find('.cf-pairs').append(makePair({ k: '', v: '' }, $sub.attr('data-key-ph'), $sub.attr('data-val-ph')));
+            $sub.find('.cft-pairs').append(makePair({ k: '', v: '' }, $sub.attr('data-key-ph'), $sub.attr('data-val-ph')));
         });
-        $editor.on('click', '.cf-up', function () {
-            var $row = $(this).closest('.cf-row');
-            $row.prev('.cf-row').before($row);
+        $editor.on('click', '.cft-up', function () {
+            var $row = $(this).closest('.cft-row');
+            $row.prev('.cft-row').before($row);
             updateMoveButtons();
             serialize($rows, textarea);
         });
-        $editor.on('click', '.cf-down', function () {
-            var $row = $(this).closest('.cf-row');
-            $row.next('.cf-row').after($row);
+        $editor.on('click', '.cft-down', function () {
+            var $row = $(this).closest('.cft-row');
+            $row.next('.cft-row').after($row);
             updateMoveButtons();
             serialize($rows, textarea);
         });
