@@ -1428,7 +1428,7 @@ trait TraitModule
      * @param string $dirPath Absolute path of the directory to check.
      * @return string|null The dirpath if valid, else null.
      */
-    protected function checkDestinationDir(string $dirPath): ?string
+    protected function checkDestinationDir(string $dirPath, bool $protect = false): ?string
     {
         // Create the directory if needed, tolerating a concurrent creation
         // (mkdir then fails but the directory exists). The mkdir mode is
@@ -1465,6 +1465,31 @@ trait TraitModule
             return null;
         }
         @unlink($probe);
+
+        // Protect sensitive directory (backup, log, import, temp…) with
+        // ".htaccess" if not present.
+        if ($protect) {
+            $htaccess = $dirPath . '/.htaccess';
+            if (!file_exists($htaccess)) {
+                $content = <<<'HTACCESS'
+                    # Protect sensitive files (added by Omeka module Common).
+                    <IfModule mod_authz_core.c>
+                        Require all denied
+                    </IfModule>
+                    <IfModule !mod_authz_core.c>
+                        Order deny,allow
+                        Deny from all
+                    </IfModule>
+
+                    HTACCESS;
+                if (@file_put_contents($htaccess, $content) === false) {
+                    $this->getServiceLocator()->get('Omeka\Logger')->warn(
+                        'A ".htaccess" could not be written to protect the directory "{path}".', // @translate
+                        ['path' => $dirPath]
+                    );
+                }
+            }
+        }
 
         return $dirPath;
     }
