@@ -229,10 +229,12 @@ class Module extends AbstractModule
             ['resource' => 'resource_type'],
             ['resource' => ['idx_type_created' => '`resource_type`, `created`']],
             ['resource' => ['idx_type_modified' => '`resource_type`, `modified`']],
+            ['item_site' => ['idx_site_item' => '`site_id`, `item_id`']],
+            // Speed searches and references.
             ['value' => 'type'],
             ['value' => 'lang'],
             ['value' => ['idx_property_value' => '`property_id`, `value`(190)']],
-            ['item_site' => ['idx_site_item' => '`site_id`, `item_id`']],
+            ['value' => ['idx_property_value_resource' => '`property_id`, `value_resource_id`']],
             // Keep session last, because it may fail on a big database.
             ['session' => 'modified'],
         ];
