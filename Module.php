@@ -14,6 +14,12 @@ if (!class_exists('Omeka\Stdlib\PsrMessage', false)
     require_once __DIR__ . '/data/compat/PsrMessage.php';
 }
 
+// Load the module dependencies when installed as a zip.
+// With composer, libraries are stored in omeka vendor/ and the module has none.
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Module\AbstractModule;
 

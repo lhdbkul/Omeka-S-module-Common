@@ -52,6 +52,7 @@ return [
             // Deprecated alias.
             'configFormTabs' => View\Helper\FormTabs::class,
             'arrayQueriesTextareaAssets' => View\Helper\ArrayQueriesTextareaAssets::class,
+            'fieldsTextareaAssets' => View\Helper\FieldsTextareaAssets::class,
             'formCollection' => Form\View\Helper\FormCollection::class,
             'formNote' => Form\View\Helper\FormNote::class,
             'formSecret' => Form\View\Helper\FormSecret::class,
@@ -90,6 +91,7 @@ return [
             Form\Element\ArrayQueriesTextarea::class => Form\Element\ArrayQueriesTextarea::class,
             Form\Element\ArrayText::class => Form\Element\ArrayText::class,
             Form\Element\DataTextarea::class => Form\Element\DataTextarea::class,
+            Form\Element\FieldsTextarea::class => Form\Element\FieldsTextarea::class,
             Form\Element\GroupTextarea::class => Form\Element\GroupTextarea::class,
             Form\Element\IniTextarea::class => Form\Element\IniTextarea::class,
             Form\Element\Note::class => Form\Element\Note::class,
