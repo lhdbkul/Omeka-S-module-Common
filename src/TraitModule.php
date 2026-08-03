@@ -304,8 +304,14 @@ trait TraitModule
         // When the form declares element groups, render them as sections via
         // the dedicated helper, since the default formCollection() ignores the
         // "element_groups" option.
-        if ($form->getOption('element_groups') && $helpers->has('formCollectionElementGroups')) {
-            return $renderer->formCollectionElementGroups($form);
+        if ($form->getOption('element_groups')) {
+            // The nested renderer keeps the fieldsets that are a real group of
+            // values, unlike the core one that flattens them.
+            foreach (['formCollectionElementGroupsNested', 'formCollectionElementGroups'] as $helper) {
+                if ($helpers->has($helper)) {
+                    return $renderer->$helper($form);
+                }
+            }
         }
 
         return $renderer->formCollection($form);

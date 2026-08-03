@@ -56,6 +56,7 @@ return [
             'fieldsTextareaAssets' => View\Helper\FieldsTextareaAssets::class,
             'formArrayQueriesTextarea' => Form\View\Helper\FormArrayQueriesTextarea::class,
             'formCollection' => Form\View\Helper\FormCollection::class,
+            'formCollectionElementGroupsNested' => Form\View\Helper\FormCollectionElementGroupsNested::class,
             'formFieldsTextarea' => Form\View\Helper\FormFieldsTextarea::class,
             'formNote' => Form\View\Helper\FormNote::class,
             'formSecret' => Form\View\Helper\FormSecret::class,
