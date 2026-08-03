@@ -119,3 +119,13 @@ if (version_compare($oldVersion, '3.4.85', '<')) {
     );
     $messenger->addWarning($message);
 }
+
+if (version_compare($oldVersion, '3.4.89', '<')) {
+    // Protect the shared sensitive directories with a deny-all .htaccess: the
+    // Omeka logs and the sensitive sub-directories of "files/". Idempotent.
+    $config = $services->get('Config');
+    $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
+    $directoryManager = $services->get('Common\DirectoryManager');
+    $directoryManager->protectDirectory(OMEKA_PATH . '/logs');
+    $directoryManager->protectSensitiveDirectories($basePath);
+}
