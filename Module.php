@@ -55,6 +55,26 @@ class Module extends AbstractModule
         $this->fixIndexes();
         $this->checkGeneric();
         $this->ensureSecretKey();
+        $this->protectDirectories();
+    }
+
+    /**
+     * Protect the sensitive server side directories with a deny-all .htaccess.
+     *
+     * As a base module of the ecosystem, Common is the right place to secure
+     * the shared sensitive directories: the logs of Omeka and the sensitive
+     * sub-directories of "files/" (backup, import, export, result…) that a
+     * module may create. Public media directories are never touched and an
+     * existing .htaccess is never overwritten.
+     */
+    protected function protectDirectories(): void
+    {
+        $services = $this->getServiceLocator();
+        $config = $services->get('Config');
+        $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
+        $directoryManager = $services->get('Common\DirectoryManager');
+        $directoryManager->protectDirectory(OMEKA_PATH . '/logs');
+        $directoryManager->protectSensitiveDirectories($basePath);
     }
 
     public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $services): void

@@ -116,6 +116,65 @@ class DirectoryManager
     }
 
     /**
+     * Protect the sensitive sub-directories of a base directory (usually
+     * "files/") with a deny-all .htaccess.
+     *
+     * Server side or sensitive directories (backup, import, export, log, temp,
+     * contribution…) are protected; public media and derivative directories
+     * (original, large, tile, iiif, asset, zip…) are never touched. An existing
+     * .htaccess is never overwritten.
+     *
+     * @param string $baseDir Absolute path scanned for sub-directories.
+     * @return array<string> Names of the directories protected by this call.
+     */
+    public function protectSensitiveDirectories(string $baseDir): array
+    {
+        $protected = [];
+        if (!is_dir($baseDir)) {
+            return $protected;
+        }
+        foreach (new \DirectoryIterator($baseDir) as $dir) {
+            if (!$dir->isDir() || $dir->isDot()) {
+                continue;
+            }
+            $name = $dir->getFilename();
+            if ($this->isPublicDir($name) || !$this->isSensitiveDir($name)) {
+                continue;
+            }
+            $htaccess = $dir->getPathname() . '/.htaccess';
+            if (!file_exists($htaccess) && $this->protectDirectory($dir->getPathname())) {
+                $protected[] = $name;
+            }
+        }
+        return $protected;
+    }
+
+    /**
+     * Directories serving public media or derivatives, never to be protected.
+     */
+    public function isPublicDir(string $name): bool
+    {
+        $public = [
+            'original', 'large', 'medium', 'square', 'thumbnail', 'asset', 'zip',
+        ];
+        return in_array($name, $public, true)
+            // Iiif and tiles are served publicly (directly or cached).
+            || (bool) preg_match('/(iiif|tile|cache)/i', $name);
+    }
+
+    /**
+     * Directories holding server side or sensitive data, to protect from a
+     * direct web access.
+     */
+    public function isSensitiveDir(string $name): bool
+    {
+        return (bool) preg_match(
+            '/(backup|bkp|dump|sql|import|export|log|temp|tmp|trash|contribution|contactus|userdata|private|preload|result|meminfo|triplestore)/i',
+            $name
+        );
+    }
+
+    /**
      * The .htaccess content denying direct web access to a private directory.
      */
     public function denyHtaccessContent(): string
