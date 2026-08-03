@@ -51,6 +51,7 @@ return [
             'formTabs' => View\Helper\FormTabs::class,
             // Deprecated alias.
             'configFormTabs' => View\Helper\FormTabs::class,
+            'arrayQueriesTextareaAssets' => View\Helper\ArrayQueriesTextareaAssets::class,
             'formCollection' => Form\View\Helper\FormCollection::class,
             'formNote' => Form\View\Helper\FormNote::class,
             'formSecret' => Form\View\Helper\FormSecret::class,
