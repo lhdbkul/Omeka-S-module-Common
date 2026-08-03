@@ -19,7 +19,6 @@ return [
             'Omeka\Logger' => Service\LoggerFactory::class,
             // Backfill of the core secret-key cipher: defer to the core service
             // as soon as it provides the class, otherwise provide the backfill.
-            // During preload, the class may be available but not loaded yet.
             'Omeka\Cipher' => class_exists(\Omeka\Stdlib\Cipher::class)
                 ? null
                 : Service\Stdlib\CipherFactory::class,
@@ -82,10 +81,8 @@ return [
             'prepareMessage' => Service\ViewHelper\PrepareMessageFactory::class,
             'translator' => Service\ViewHelper\TranslatorFactory::class,
             // Override of core "trigger" view helper to also fire on error pages (no route match).
-            // Drop once the upstream fix ships in Omeka S 4.3.
-            'trigger' => version_compare(\Omeka\Module::VERSION, '4.3', '<')
-                ? Service\ViewHelper\TriggerFactory::class
-                : null,
+            // @todo A check of the integration in omeka should be done to skip it via check class exits.
+            'trigger' => Service\ViewHelper\TriggerFactory::class,
         ]),
     ],
     // Add some common elements and make standard elements and some omeka ones optional.
