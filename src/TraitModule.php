@@ -1425,73 +1425,17 @@ trait TraitModule
      * existing files can be overwritten: a file may belong to another user even
      * when the directory itself is writeable.
      *
+     * When $protect is true, a "deny all" .htaccess is dropped in the directory
+     * so it is not served directly by Apache. Filesystem access is unaffected.
+     *
      * @param string $dirPath Absolute path of the directory to check.
+     * @param bool $protect Deny direct web access to the directory.
      * @return string|null The dirpath if valid, else null.
      */
     protected function checkDestinationDir(string $dirPath, bool $protect = false): ?string
     {
-        // Create the directory if needed, tolerating a concurrent creation
-        // (mkdir then fails but the directory exists). The mkdir mode is
-        // altered by the umask, so group-write is enforced afterwards for
-        // shared/multi-process setups (fails silently when not the owner).
-        if (!file_exists($dirPath)) {
-            if (!@mkdir($dirPath, 0775, true) && !is_dir($dirPath)) {
-                $this->getServiceLocator()->get('Omeka\Logger')->err(
-                    'The directory "{path}" cannot be created: {error}.', // @translate
-                    ['path' => $dirPath, 'error' => error_get_last()['message'] ?? 'unknown error']
-                );
-                return null;
-            }
-            @chmod($dirPath, 0775);
-        }
-
-        // Fast checks first: cheap rejection without touching the filesystem.
-        if (!is_dir($dirPath) || !is_readable($dirPath) || !is_writeable($dirPath)) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err(
-                'The path "{path}" is not a readable and writeable directory.', // @translate
-                ['path' => $dirPath]
-            );
-            return null;
-        }
-
-        // Definitive writability test: is_writeable() does not check the
-        // execute bit nor ACLs, so actually create and remove a probe file.
-        $probe = $dirPath . '/.omeka-write-test-' . getmypid() . '-' . uniqid('', true);
-        if (@file_put_contents($probe, '') === false) {
-            $this->getServiceLocator()->get('Omeka\Logger')->err(
-                'The directory "{path}" is not writeable: {error}.', // @translate
-                ['path' => $dirPath, 'error' => error_get_last()['message'] ?? 'unknown error']
-            );
-            return null;
-        }
-        @unlink($probe);
-
-        // Protect sensitive directory (backup, log, import, temp…) with
-        // ".htaccess" if not present.
-        if ($protect) {
-            $htaccess = $dirPath . '/.htaccess';
-            if (!file_exists($htaccess)) {
-                $content = <<<'HTACCESS'
-                    # Protect sensitive files (added by Omeka module Common).
-                    <IfModule mod_authz_core.c>
-                        Require all denied
-                    </IfModule>
-                    <IfModule !mod_authz_core.c>
-                        Order deny,allow
-                        Deny from all
-                    </IfModule>
-
-                    HTACCESS;
-                if (@file_put_contents($htaccess, $content) === false) {
-                    $this->getServiceLocator()->get('Omeka\Logger')->warn(
-                        'A ".htaccess" could not be written to protect the directory "{path}".', // @translate
-                        ['path' => $dirPath]
-                    );
-                }
-            }
-        }
-
-        return $dirPath;
+        return $this->getServiceLocator()->get('Common\DirectoryManager')
+            ->checkDestinationDir($dirPath, $protect);
     }
 
     /**

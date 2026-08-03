@@ -7,6 +7,7 @@ return [
         'factories' => array_filter([
             'Common\Cipher' => Service\Stdlib\CipherFactory::class,
             'Common\DeferredJobDispatch' => Service\Stdlib\DeferredJobDispatchFactory::class,
+            'Common\DirectoryManager' => Service\Stdlib\DirectoryManagerFactory::class,
             'Common\EasyMeta' => Service\Stdlib\EasyMetaFactory::class,
             'Common\UpgradeJobDispatch' => Service\Stdlib\UpgradeJobDispatchFactory::class,
             // TODO Use a delegator for file, dispatcher and logger factories? A direct factory is simpler for the same result for these services.
@@ -151,6 +152,7 @@ return [
             'sendFile' => Mvc\Controller\Plugin\SendFile::class,
         ],
         'factories' => [
+            'checkDestinationDir' => Service\ControllerPlugin\CheckDestinationDirFactory::class,
             'easyMeta' => Service\ControllerPlugin\EasyMetaFactory::class,
             'sendEmail' => Service\ControllerPlugin\SendEmailFactory::class,
             'prepareMessage' => Service\ControllerPlugin\PrepareMessageFactory::class,
