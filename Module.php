@@ -71,8 +71,11 @@ class Module extends AbstractModule
     {
         $services = $this->getServiceLocator();
         $config = $services->get('Config');
-        $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
-        $directoryManager = $services->get('Common\DirectoryManager');
+        $basePath = $config['file_store']['local']['base_path'] ?? null ?: (OMEKA_PATH . '/files');
+        // The module is not active yet during install, so its config is not
+        // merged and its services are not registered: build the directory
+        // manager directly, like the psr-4 namespace registered above.
+        $directoryManager = new \Common\Stdlib\DirectoryManager($services->get('Omeka\Logger'));
         $directoryManager->protectDirectory(OMEKA_PATH . '/logs');
         $directoryManager->protectSensitiveDirectories($basePath);
     }
