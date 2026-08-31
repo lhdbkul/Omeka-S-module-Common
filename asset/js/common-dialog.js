@@ -237,8 +237,16 @@ var CommonDialog = (function() {
             const dialogUid = 'dialog-' + Math.random().toString(36).slice(2, 10);
             const headingId = dialogUid + '-heading';
             const messageId = dialogUid + '-message';
+            // The wrapper is a form only when a value has to be validated with
+            // the Enter key: the submit then triggers the click on button ok.
+            // Else the html parser will remove the inside nested form.
+            const wrapperTag = (options.input || options.textarea) ? 'form' : 'div';
+            const wrapperOpen = wrapperTag === 'form'
+                ? '<form method="dialog" class="dialog-background">'
+                : '<div class="dialog-background">';
+
             dialog.innerHTML = `
-                <form method="dialog" class="dialog-background">
+                ${wrapperOpen}
                     <div class="dialog-panel">
                         <div class="dialog-header">
                             <button type="button" class="dialog-header-close-button">
@@ -255,7 +263,7 @@ var CommonDialog = (function() {
                             ${footerHtml}
                         </div>
                     </div>
-                </form>
+                </${wrapperTag}>
                 `;
             document.body.appendChild(dialog);
 
