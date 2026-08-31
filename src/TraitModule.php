@@ -29,7 +29,10 @@
 namespace Common;
 
 // Polyfill core PsrMessage classes for Omeka S < 4.2.
-if (version_compare(\Omeka\Module::VERSION, '4.2', '<')) {
+// Check Omeka\Module too because it is not in composer/psr 4 and breaks tests.
+if (class_exists(\Omeka\Module::class, false)
+    && version_compare(\Omeka\Module::VERSION, '4.2', '<')
+) {
     require_once dirname(__DIR__) . '/data/compat/MessageInterface.php';
     require_once dirname(__DIR__) . '/data/compat/PsrInterpolateInterface.php';
     require_once dirname(__DIR__) . '/data/compat/PsrInterpolateTrait.php';
