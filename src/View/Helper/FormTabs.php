@@ -16,7 +16,7 @@ use Laminas\View\Helper\AbstractHelper;
  * The list of tabs may be passed explicitly:
  *   [
  *       'tab-id' => [
- *           'label' => 'Tab label', // @translated
+ *           'label' => 'Tab label', // @translate
  *           'elements' => ['name1', 'name2', 'fieldset1'],
  *       ],
  *       ...
