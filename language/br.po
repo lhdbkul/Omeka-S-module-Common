@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-03 00:00+0000\n"
-"PO-Revision-Date: 2026-08-03 00:00+0000\n"
+"POT-Creation-Date: 2026-08-31 00:00+0000\n"
+"PO-Revision-Date: 2026-08-31 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: br <LL@li.org>\n"
 "Language: br\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Generated-By: Babel 2.18.0\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/Form/View/Helper/FormSecret.php:45 src/TraitModule.php:444
+#: src/Form/View/Helper/FormSecret.php:45 src/TraitModule.php:450
 msgid "Leave empty to keep the current value"
 msgstr "Lezit goullo evit mirout an talvoud a-vremañ"
 
@@ -52,41 +52,149 @@ msgstr "N'eo ket bet kavet."
 msgid "default"
 msgstr "dre ziouer"
 
+#: src/View/Helper/ArrayQueriesTextareaAssets.php:36
+msgid "Edit with the query builder"
+msgstr "Kemmañ gant saver ar rekedoù"
+
+#: src/View/Helper/ArrayQueriesTextareaAssets.php:37
+#: src/View/Helper/FieldsTextareaAssets.php:44
+#: src/View/Helper/PairsTextareaAssets.php:27
+msgid "Edit as text"
+msgstr "Kemmañ evel testenn"
+
+#: src/View/Helper/ArrayQueriesTextareaAssets.php:42
+msgid "Add a query"
+msgstr "Ouzhpennañ ur goulenn"
+
+#: src/View/Helper/ArrayQueriesTextareaAssets.php:43
+#: src/View/Helper/FieldsTextareaAssets.php:58
+#: src/View/Helper/PairsTextareaAssets.php:28
+msgid "key"
+msgstr "alc'hwez"
+
+#: src/View/Helper/FieldsTextareaAssets.php:43
+#: src/View/Helper/PairsTextareaAssets.php:26
+msgid "Edit as a form"
+msgstr "Kemmañ evel ur furmskrid"
+
+#: src/View/Helper/FieldsTextareaAssets.php:46
+msgid "Hide preview"
+msgstr "Kuzhat ar rakweled"
+
+#: src/View/Helper/FieldsTextareaAssets.php:48
+msgid "Add a field"
+msgstr "Ouzhpennañ ur maez"
+
+#: src/View/Helper/FieldsTextareaAssets.php:50
+msgid "label"
+msgstr "etikedenn"
+
+#: src/View/Helper/FieldsTextareaAssets.php:51
+msgid "required"
+msgstr "ret"
+
+#: src/View/Helper/FieldsTextareaAssets.php:54
+msgid "Attributes"
+msgstr "Perzhioù"
+
+#: src/View/Helper/FieldsTextareaAssets.php:55
+msgid "Add a value"
+msgstr "Ouzhpennañ un talvoudegezh"
+
+#: src/View/Helper/FieldsTextareaAssets.php:56
+msgid "Add an option"
+msgstr "Ouzhpennañ un dibab"
+
+#: src/View/Helper/FieldsTextareaAssets.php:57
+msgid "Add an attribute"
+msgstr "Ouzhpennañ un perzh"
+
+#: src/View/Helper/FieldsTextareaAssets.php:59
+#: src/View/Helper/PairsTextareaAssets.php:29
+msgid "value"
+msgstr "talvoudegezh"
+
+#: src/View/Helper/FieldsTextareaAssets.php:60
+msgid "Delete this field"
+msgstr "Dilemel ar vaezienn-mañ"
+
+#: src/View/Helper/FieldsTextareaAssets.php:62
+msgid "Move"
+msgstr "Fiñv"
+
+#: src/View/Helper/FieldsTextareaAssets.php:63
+#: src/View/Helper/PairsTextareaAssets.php:35
+msgid "Move up"
+msgstr "Pignat"
+
+#: src/View/Helper/FieldsTextareaAssets.php:64
+#: src/View/Helper/PairsTextareaAssets.php:36
+msgid "Move down"
+msgstr "Diskenn"
+
+#: src/View/Helper/FieldsTextareaAssets.php:65
+msgid "The YAML cannot be parsed. Fix it before switching to the form."
+msgstr "N'haller ket dielfennañ ar YAML. Reizhit anezhañ a-raok cheñch d'ar furmskrid."
+
+#: src/View/Helper/PairsTextareaAssets.php:31
+msgid "Add…"
+msgstr "Ouzhpennañ…"
+
+#: src/View/Helper/PairsTextareaAssets.php:33
+msgid "Drag to reorder"
+msgstr "Stlejañ evit adurzhiañ"
+
+#: src/View/Helper/PairsTextareaAssets.php:34
+msgid "Move: use the up and down arrows to reorder"
+msgstr "Dilec'hiañ: implijit ar saezhoù war-grec'h ha war-draoñ evit adurzhiañ"
+
+#: src/View/Helper/PairsTextareaAssets.php:37
+msgid "The text cannot be edited as a list: fix it or edit it as text."
+msgstr "N'haller ket kemmañ an destenn evel ur roll : reizhañ anezhi pe he c'hemmañ evel testenn."
+
+#: src/View/Helper/PairsTextareaAssets.php:38
+msgid "The key cannot contain \"{separator}\"."
+msgstr "Ne c'hall ket an alc'hwez enderc'hel \"{separator}\"."
+
 #: data/scripts/upgrade.php:118
 msgid "The dialog template and related view helpers have been improved for accessibility (ARIA): proper heading level (h2), aria-labelledby/aria-describedby on the dialog, aria-label on close buttons, role/aria-live on messages. Modules and themes overriding this template or using its CSS classes should be reviewed and updated accordingly."
 msgstr "Gwellaet eo bet patrom an diviz hag ar skoazellerioù gwel liammet outañ evit an hegerzhded (ARIA) : live titl reizh (h2), aria-labelledby/aria-describedby war an diviz, aria-label war ar boutonnoù serriñ, role/aria-live war ar c'hemennadoù. Ar moduloù hag an temoù a dremen dreist ar patrom-mañ pe a implij e c'hlasoù CSS a rank bezañ adwelet hag hizivaet diouzh se."
 
-#: Module.php:87
+#: Module.php:116
 msgid "A secret key was generated in config/secret_key.php to encrypt secrets."
 msgstr "Ur c'hlevier kuzh a zo bet krouet e config/secret_key.php evit rinegañ ar sekredoù."
 
-#: Module.php:90
+#: Module.php:119
 msgid "The secret key could not be created: set it manually in config/secret_key.php or set the environment variable \"OMEKA_SECRET_KEY\" to encrypt secrets (module api keys, etc.)."
 msgstr "N'haller ket krouiñ an alc'hwez kuzh : lakait anezhañ gant an dorn e config/secret_key.php pe lakait ar gemmell endro \"OMEKA_SECRET_KEY\" evit kodañ ar sekredoù (alc'hwezioù API ar modul, hag all)."
 
-#: Module.php:121
+#: Module.php:150
 msgid "The php extension \"intl\" is not available. It is recommended to install it to manage diacritics and non-latin characters and to translate dates, numbers and more."
 msgstr "An astenn php \"intl\" n'eo ket hegerz. Erbedet e vez he staliañ evit merañ an diakritikoù hag an arouezennoù nann-latin, ha da zaveziñ deiziadoù, sifroù ha traoù all."
 
-#: Module.php:309
+#: Module.php:340
 msgid "Added {count} database indexes: {list}."
 msgstr "Ouzhpennet {count} menegerioù diaz-roadennoù : {list}."
 
-#: Module.php:315
+#: Module.php:346
 msgid "Failed to add {count} database indexes: {list}."
 msgstr "C'hwitet war ouzhpennañ menegerioù an diaz-roadennoù {count} : {list}."
 
-#: Module.php:347
+#: Module.php:378
 msgid "PHP-CLI unavailable for {count} large-table indexes ({list}). Ask your DBA to run: {sql}"
 msgstr "PHP-CLI n'eo ket hegerz evit {count} menegerioù taolen vras ({list}). Goulennit digant ho Meraer Bankoù-titouroù (DBA) seveniñ: {sql}"
 
-#: Module.php:359
+#: Module.php:390
 msgid "{count} large-table indexes are being added in background with online DDL ({list}). Track progress in logs/common-add-index.log."
 msgstr "{count} Emañ menegerioù taolenn vras {list} o vezañ ouzhpennet en diadreñv gant DDL enlinenn. Heuliañ an araokadennoù e logs/common-add-index.log."
 
-#: Module.php:395
+#: Module.php:426
 msgid "The module Generic is no longer needed and can be removed."
 msgstr "N'eus ket ezhomm ken eus ar modul Generic ha gallout a ra bezañ lamet kuit."
+
+#: src/Log/Writer/Messenger.php:93
+msgid "Only the first {count} messages are displayed: see the job log for the other ones."
+msgstr "Ne vez diskouezet nemet ar {count} kemennadenn gentañ : sellit ouzh marilh al labour evit ar re all."
 
 #: src/Mvc/Controller/Plugin/SpecifyMediaType.php:176
 msgid "Xml parsing error level {level}, code {code}, for file \"{file}\" (media #{media_id}), line {line}, column {column}: {message}"
@@ -99,18 +207,6 @@ msgstr "N'haller ket parsañ ar restr \"{file}\" (media #{media_id}) gant al len
 #: src/Mvc/Controller/Plugin/SpecifyMediaType.php:546
 msgid "Warning: some files contain invalid unicode characters and cannot be processed directly."
 msgstr "Diwallit : en restroù zo ez eus arouezennoù unicode direizh, ha n'haller ket o tretiñ war-eeun."
-
-#: src/Mvc/Controller/Plugin/PrepareMessage.php:106
-msgid "Empty message."
-msgstr "Kemenadenn goullo."
-
-#: src/Mvc/Controller/Plugin/PrepareMessage.php:113
-msgid "Too long message."
-msgstr "Kelaouenn re hir."
-
-#: src/Mvc/Controller/Plugin/PrepareMessage.php:140
-msgid "Too long subject."
-msgstr "Danvez re hir."
 
 #: src/Mvc/Controller/Plugin/SendEmail.php:88
 msgid "Email not sent: the content is missing (subject: {subject})."
@@ -225,13 +321,17 @@ msgstr "N'emañ ket an hent e-barzh an hent strizhet"
 msgid "[No site]"
 msgstr "[Lec'hienn ebet]"
 
-#: src/Form/Element/IniTextarea.php:142
+#: src/Form/Element/IniTextarea.php:147
 msgid "Invalid ini string or values with double quotes"
 msgstr "Nerzh-skrivañ INI direizh pe talvoudoù gant arroudennoù doubl"
 
-#: src/Form/Element/IniTextarea.php:186
+#: src/Form/Element/IniTextarea.php:191
 msgid "The field {label} has an issue: {msg}"
 msgstr "Ur gudenn zo gant ar maez {label} : {msg}"
+
+#: src/Form/Element/FieldsTextarea.php:119
+msgid "Invalid fields: check the yaml syntax, the field names (ascii, no space), the types and, for select/radio/multicheckbox, the list of values."
+msgstr "Maeziennoù direizh : gwiriit ar yezhadur yaml, anvioù ar maeziennoù (ascii, hep esaouenn), an doareoù ha, evit select/radio/multicheckbox, roll an talvoudoù."
 
 #: src/Form/SendMessageForm.php:87
 msgid "Message"
@@ -365,7 +465,7 @@ msgstr "N'haller ket lenn ar restr \"{file}\". Gwiriit ar restr."
 msgid "A vocabulary must have a namespace uri and a prefix."
 msgstr "Ur geriaoueg a rank kaout un URI egor-anvioù hag ur rakger."
 
-#: src/TraitModule.php:142 src/TraitModule.php:1303
+#: src/TraitModule.php:142 src/TraitModule.php:1309
 msgid "This module requires the module \"{module}\"."
 msgstr "Ezhomm en deus ar modul-mañ eus ar modul \"{module}\"."
 
@@ -381,29 +481,17 @@ msgstr "Er modul-mañ ez eus danvezioù na c'hallont ket bezañ staliet."
 msgid "This module cannot install its tables, because they exist already. Try to remove them first."
 msgstr "N'hall ket ar modul-mañ staliañ e daolennoù, rak ez eus anezho dija. Klaskit o dilemel da gentañ."
 
-#: src/TraitModule.php:667
+#: src/TraitModule.php:673
 msgid "The module removed tables \"{tables}\" from a previous broken install."
 msgstr "Tennet eo bet ar modul an taolennoù \"{tables}\" eus ur staliadur torret a-raok."
 
-#: src/TraitModule.php:1298
+#: src/TraitModule.php:1304
 msgid "This module requires the module \"{module}\", version {version} or above."
 msgstr "Ezhomm en deus ar modul-mañ eus ar modul \"{module}\", stumm {version} pe unan uheloc'h."
 
-#: src/TraitModule.php:1410
+#: src/TraitModule.php:1440
 msgid "The module \"{module}\" was automatically deactivated because the dependencies are unavailable."
 msgstr "Dizgweredekaet eo bet ar modul \"{module}\" ent emgefreek peogwir n'eo ket hegerz an dependansoù."
-
-#: src/TraitModule.php:1440
-msgid "The directory \"{path}\" cannot be created: {error}."
-msgstr "N'haller ket krouiñ ar rollad \"{path}\" : {error}."
-
-#: src/TraitModule.php:1451
-msgid "The path \"{path}\" is not a readable and writeable directory."
-msgstr "N'eo ket al lec'hienn \"{path}\" un dastumad lennus ha skrivañus."
-
-#: src/TraitModule.php:1462
-msgid "The directory \"{path}\" is not writeable: {error}."
-msgstr "N'haller ket skrivañ er c'havlec'h \"{path}\" : {error}."
 
 #: src/Service/Form/Element/MediaIngesterSelectFactory.php:26
 msgid "Select media ingesters…"
@@ -413,79 +501,119 @@ msgstr "Dibabit an ingesterien media…"
 msgid "Select media renderers…"
 msgstr "Diuzit an eztaolerien media…"
 
-#: src/Stdlib/EasyMeta.php:77
+#: src/Stdlib/UpgradeJobDispatch.php:103
+msgid "The job #{job_id} is still starting after the sleep delay. It may need to be relaunched manually."
+msgstr "An trevell #{job_id} a zo c'hoazh o kregiñ goude an dale 'sleep'. Marteze e vo ret hec'h adlañsañ gant an dorn."
+
+#: src/Stdlib/EasyMeta.php:81
 msgid "annotation"
 msgstr "notenn"
 
-#: src/Stdlib/EasyMeta.php:79
+#: src/Stdlib/EasyMeta.php:83
+msgid "concept"
+msgstr "meizad"
+
+#: src/Stdlib/EasyMeta.php:84
 msgid "digital object"
 msgstr "objed niverel"
 
-#: src/Stdlib/EasyMeta.php:83
+#: src/Stdlib/EasyMeta.php:88
 msgid "resource"
 msgstr "danvez"
 
-#: src/Stdlib/EasyMeta.php:84
+#: src/Stdlib/EasyMeta.php:89
 msgid "property"
 msgstr "perc'henniezh"
 
-#: src/Stdlib/EasyMeta.php:85
+#: src/Stdlib/EasyMeta.php:90
 msgid "resource class"
 msgstr "klasad danvez"
 
-#: src/Stdlib/EasyMeta.php:93
+#: src/Stdlib/EasyMeta.php:98
 msgid "annotations"
 msgstr "notennoù"
 
-#: src/Stdlib/EasyMeta.php:94
+#: src/Stdlib/EasyMeta.php:99
 msgid "assets"
 msgstr "madoù"
 
-#: src/Stdlib/EasyMeta.php:95
+#: src/Stdlib/EasyMeta.php:100
+msgid "concepts"
+msgstr "meizadoù"
+
+#: src/Stdlib/EasyMeta.php:101
 msgid "digital objects"
 msgstr "objedoù niverel"
 
-#: src/Stdlib/EasyMeta.php:96
+#: src/Stdlib/EasyMeta.php:102
 msgid "items"
 msgstr "traoù"
 
-#: src/Stdlib/EasyMeta.php:97
+#: src/Stdlib/EasyMeta.php:103
 msgid "item sets"
 msgstr "sterniadoù traezoù"
 
-#: src/Stdlib/EasyMeta.php:99
+#: src/Stdlib/EasyMeta.php:105
 msgid "resources"
 msgstr "danvezioù"
 
-#: src/Stdlib/EasyMeta.php:100
+#: src/Stdlib/EasyMeta.php:106
 msgid "properties"
 msgstr "perzhioù"
 
-#: src/Stdlib/EasyMeta.php:101
+#: src/Stdlib/EasyMeta.php:107
 msgid "resource classes"
 msgstr "klasadoù danvez"
 
-#: src/Stdlib/EasyMeta.php:102
+#: src/Stdlib/EasyMeta.php:108
 msgid "resource templates"
 msgstr "patromoù danvezioù"
 
-#: src/Stdlib/EasyMeta.php:103
+#: src/Stdlib/EasyMeta.php:109
 msgid "vocabularies"
 msgstr "geriaouegoù"
 
-#: src/Stdlib/EasyMeta.php:104
+#: src/Stdlib/EasyMeta.php:110
 msgid "sites"
 msgstr "lec'hiennoù"
 
-#: config/module.config.php:169
+#: src/Stdlib/MessagePreparerTrait.php:50
+msgid "Empty message."
+msgstr "Kemenadenn goullo."
+
+#: src/Stdlib/MessagePreparerTrait.php:57
+msgid "Too long message."
+msgstr "Kelaouenn re hir."
+
+#: src/Stdlib/MessagePreparerTrait.php:77
+msgid "Too long subject."
+msgstr "Danvez re hir."
+
+#: src/Stdlib/DirectoryManager.php:53
+msgid "The directory \"{path}\" cannot be created: {error}."
+msgstr "N'haller ket krouiñ ar rollad \"{path}\" : {error}."
+
+#: src/Stdlib/DirectoryManager.php:64
+msgid "The path \"{path}\" is not a readable and writeable directory."
+msgstr "N'eo ket al lec'hienn \"{path}\" un dastumad lennus ha skrivañus."
+
+#: src/Stdlib/DirectoryManager.php:75
+msgid "The directory \"{path}\" is not writeable: {error}."
+msgstr "N'haller ket skrivañ er c'havlec'h \"{path}\" : {error}."
+
+#: src/Stdlib/DirectoryManager.php:110
+msgid "The directory \"{path}\" could not be protected with a .htaccess: {error}."
+msgstr "N'eo ket bet tu gwareziñ ar c'havlec'h \"{path}\" gant ur restr .htaccess : {error}."
+
+#: config/module.config.php:183
 msgid "An error occurred."
 msgstr "Ur fazi zo c'hoarvezet."
 
-#: config/module.config.php:173
+#: config/module.config.php:187
 msgid "Information"
 msgstr "Titouroù"
 
-#: config/module.config.php:175
+#: config/module.config.php:189
 msgid "OK"
 msgstr "Mat eo"
 
