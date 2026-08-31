@@ -15,8 +15,6 @@
         margin: 0 0 0 auto;
     }
     .common-pairs-rows {
-        border: 1px solid #dfdfdf;
-        background: #fff;
         margin-bottom: 0.5em;
     }
     .common-pairs-head,
@@ -25,16 +23,15 @@
         align-items: center;
         gap: 0.5em;
         padding: 0.25em 0.5em 0.25em 0;
+        margin-bottom: 0.5em;
+        border: 1px solid #dfdfdf;
+        border-radius: 2px;
+        background: #fff;
     }
     .common-pairs-head {
         font-size: 0.85em;
         color: #676767;
-        background: #f7f7f7;
-        border-bottom: 1px solid #dfdfdf;
         padding-left: 0.5em;
-    }
-    .common-pairs-row + .common-pairs-row {
-        border-top: 1px solid #efefef;
     }
     .common-pairs-row.dragging {
         opacity: 0.4;

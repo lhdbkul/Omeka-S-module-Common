@@ -149,6 +149,21 @@
                 picker.appendChild(opt);
             });
             picker.disabled = picker.options.length <= 1;
+            // A long list of keys deserves the searchable select.
+            if (window.jQuery && window.jQuery.fn.chosen) {
+                const $picker = window.jQuery(picker);
+                if (!picker.dataset.chosenReady && picker.options.length > 10) {
+                    picker.dataset.chosenReady = '1';
+                    picker.classList.add('chosen-select');
+                    $picker.chosen({
+                        allow_single_deselect: true,
+                        disable_search_threshold: 10,
+                        width: '100%',
+                        placeholder_text_single: t('pick', 'Add…'),
+                    });
+                }
+                if (picker.dataset.chosenReady) $picker.trigger('chosen:updated');
+            }
         };
 
         const changed = function () {
@@ -213,13 +228,16 @@
             });
         }
         if (picker) {
-            picker.addEventListener('change', function () {
+            const onPick = function () {
                 const key = picker.value;
                 if (!key) return;
                 const keys = knownKeys(options);
                 addRow({key: key, value: options.keyFill && !isList && keys[key] !== key ? keys[key] : ''}, false);
                 picker.value = '';
-            });
+            };
+            picker.addEventListener('change', onPick);
+            // Chosen triggers a jQuery event, not a native one.
+            if (window.jQuery) window.jQuery(picker).on('change', onPick);
         }
         // The separator of the textarea cannot be part of a key (it is split
         // at its first occurrence), but a value may contain it.
