@@ -1338,6 +1338,30 @@ trait TraitModule
     }
 
     /**
+     * Check if a module is installed, active or not.
+     *
+     * The module manager returns a module for any directory it finds, so the
+     * sole presence of a module says nothing: an archive that was unzipped and
+     * never installed, or a module with a broken ini, is returned like an
+     * installed one. Only the state tells that the module was really installed,
+     * so that its tables, its settings and its data are there, whether it is
+     * currently enabled or not.
+     */
+    protected function isModuleInstalled(string $module): bool
+    {
+        $services = $this->getServiceLocator();
+        /** @var \Omeka\Module\Manager $moduleManager */
+        $moduleManager = $services->get('Omeka\ModuleManager');
+        $module = $moduleManager->getModule($module);
+        return $module
+            && in_array($module->getState(), [
+                ModuleManager::STATE_ACTIVE,
+                ModuleManager::STATE_NOT_ACTIVE,
+                ModuleManager::STATE_NEEDS_UPGRADE,
+            ], true);
+    }
+
+    /**
      * Check the version of a module.
      */
     protected function isModuleVersionAtLeast(string $module, string $version): bool
