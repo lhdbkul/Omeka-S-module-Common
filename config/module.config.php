@@ -81,6 +81,7 @@ return [
             'matchedRouteName' => Service\ViewHelper\MatchedRouteNameFactory::class,
             'mediaTypeSelect' => Service\ViewHelper\MediaTypeSelectFactory::class,
             'moduleConfigNav' => Service\View\Helper\ModuleConfigNavFactory::class,
+            'formatNumber' => Service\ViewHelper\FormatNumberFactory::class,
             'prepareMessage' => Service\ViewHelper\PrepareMessageFactory::class,
             'translator' => Service\ViewHelper\TranslatorFactory::class,
             // Override of core "trigger" view helper to also fire on error pages (no route match).
