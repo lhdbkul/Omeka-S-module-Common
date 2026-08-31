@@ -19,6 +19,7 @@ copy-paste common code between modules.
   - EasyMeta to get ids, terms and labels from properties, classes, templates,
     vocabularies; to get main data types too (literal, resource or uri); to get
     resource api names from any names used in Omeka and modules.
+  - FormatNumber, to get number formatted with the site or omeka locale
   - IsHomePage
   - IsHtml
   - IsXml
@@ -320,6 +321,54 @@ too (literal, resource or uri); to get resource api names from any names used in
 Omeka and modules.
 
 To get methods and more details, use the autocompletion of your IDE.
+
+#### FormatNumber
+
+This view helper formats a number with the grouping and decimal separators of
+the current locale (site or admin).
+
+```php
+// 1 234 567,891 in French, 1,234,567.891 in English, 1’234’567.891 in Swiss German.
+echo $this->formatNumber(1234567.891);
+
+// The number of decimals may be fixed.
+echo $this->formatNumber(1234.5, null, null, null, 2);
+
+// The locale may be forced.
+echo $this->formatNumber(1234.5, null, null, 'de_CH');
+```
+
+The locale is taken automatically from the translator, so it is the one already
+determined by Omeka:
+
+| Page        | Locale                                                   |
+|-------------|----------------------------------------------------------|
+| Public site | locale of the site, else of the user, else of the install |
+| Admin       | locale of the user, else of the install                   |
+
+It is a subclass of the helper `numberFormat` of Laminas, that is available by
+default, and it keeps its arguments (style, type, locale, decimals, text
+attributes). It is registered under another name, because its behavior differs
+on two points:
+
+- The locale is the one of the translator and not `Locale::getDefault()`, that
+  Omeka fills only when the extension intl is loaded.
+- The extension intl is not required. Without it, the class `NumberFormatter`
+  does not exist and the helper of Laminas is a fatal error, so the number is
+  formatted with `number_format()` and a list of separators extracted from icu.
+
+Furthermore, a value that is not a number (`'abc'`, `null`, an array) is
+returned as a string instead of throwing a `TypeError`, so a template never
+breaks on a bad value. A numeric string (`'12'`) and a stringable object holding
+a number are formatted.
+
+The fallback without intl manages the decimal separator and the grouping
+separator, that depend on the language and on the region: `de_DE` is `1.234.567,89`,
+but `de_CH` is `1’234’567.89`. An unlisted region falls back on its language,
+never on its region: so `br_FR` is formatted like `br`, and `ca_FR` follows
+catalan and not french. It is identical to icu for eighty locales, and differs
+for the seven ones that use their own digits (bengali, persian, burmese, nepali)
+or that group by two digits (indian lakh: `12,34,567` for hindi, tamil, telugu).
 
 #### IsHomePage
 
