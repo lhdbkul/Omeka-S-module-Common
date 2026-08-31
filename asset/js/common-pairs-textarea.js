@@ -37,6 +37,7 @@
         keys: {},
         // A css selector of a select whose options complete the known keys.
         keySource: '',
+        keySelect: false,
         keySkip: [],
         // A regex: only the matching keys of the source are proposed.
         keyPattern: '',
@@ -58,7 +59,14 @@
     // The known keys: the static list, completed by the options of the source
     // select at call time (its options may be built by the page).
     const knownKeys = function (options) {
-        const keys = Object.assign({}, options.keys);
+        // A Map keeps the order of the keys, unlike an object, that lists the
+        // integer ones first, so a key like "default" would move to the end.
+        const keys = new Map();
+        if (Array.isArray(options.keys)) {
+            options.keys.forEach(function (pair) { keys.set(String(pair[0]), pair[1]); });
+        } else {
+            Object.keys(options.keys || {}).forEach(function (k) { keys.set(String(k), options.keys[k]); });
+        }
         if (options.keySource) {
             const source = document.querySelector(options.keySource);
             if (source) {
@@ -67,7 +75,7 @@
                     if (opt.value === '' || opt.disabled) return;
                     if (options.keySkip.indexOf(opt.value) !== -1) return;
                     if (pattern && !pattern.test(opt.value)) return;
-                    if (!(opt.value in keys)) keys[opt.value] = opt.textContent.trim();
+                    if (!keys.has(opt.value)) keys.set(opt.value, opt.textContent.trim());
                 });
             }
         }
@@ -109,7 +117,10 @@
         element.appendChild(actions);
 
         let picker = null;
-        const hasKeys = !!options.keySource || Object.keys(options.keys).length > 0;
+        const countKeys = Array.isArray(options.keys) ? options.keys.length : Object.keys(options.keys || {}).length;
+        // With a select by row, the picker of keys would be a second way to do
+        // the same thing, so only the button to add a row remains.
+        const hasKeys = !options.keySelect && (!!options.keySource || countKeys > 0);
         if (options.actions && hasKeys) {
             picker = document.createElement('select');
             picker.className = 'common-pairs-picker';
@@ -117,7 +128,7 @@
             actions.appendChild(picker);
         }
         let addButton = null;
-        if (options.actions && options.freeKeys) {
+        if (options.actions && (options.freeKeys || options.keySelect)) {
             addButton = document.createElement('button');
             addButton.type = 'button';
             addButton.className = 'common-pairs-add o-icon-add button';
@@ -145,11 +156,11 @@
             first.value = '';
             first.textContent = t('pick', 'Add…');
             picker.appendChild(first);
-            Object.keys(keys).forEach(function (key) {
+            keys.forEach(function (label, key) {
                 if (used.indexOf(key) !== -1) return;
                 const opt = document.createElement('option');
                 opt.value = key;
-                opt.textContent = keys[key] && keys[key] !== key ? keys[key] + ' (' + key + ')' : key;
+                opt.textContent = label && label !== key ? label + ' (' + key + ')' : key;
                 picker.appendChild(opt);
             });
             picker.disabled = picker.options.length <= 1;
@@ -181,12 +192,61 @@
             if (options.sortable) {
                 row.innerHTML = '<span class="common-pairs-cell-handle sortable-handle" title="' + escapeHtml(t('drag', 'Drag to reorder')) + '"></span>';
             }
-            const key = document.createElement('input');
-            key.type = 'text';
+            // The key is a select when the keys are a closed list, so the
+            // user picks it instead of typing an id or a slug.
+            let key;
+            if (options.keySelect) {
+                key = document.createElement('select');
+                key.className = 'common-pairs-key common-pairs-cell-key';
+                const keys = knownKeys(options);
+                const empty = document.createElement('option');
+                empty.value = '';
+                empty.textContent = '';
+                empty.hidden = true;
+                key.appendChild(empty);
+                keys.forEach(function (label, k) {
+                    const opt = document.createElement('option');
+                    opt.value = k;
+                    opt.textContent = label && label !== k ? label + ' (' + k + ')' : k;
+                    key.appendChild(opt);
+                });
+                // A key that is no more in the list remains editable as text.
+                if (pair.key && !keys.has(String(pair.key))) {
+                    const opt = document.createElement('option');
+                    opt.value = pair.key;
+                    opt.textContent = pair.key;
+                    key.appendChild(opt);
+                }
+                key.value = pair.key || '';
+                // A long list of keys deserves the searchable select.
+                if (window.jQuery && window.jQuery.fn.chosen && key.options.length > 10) {
+                    setTimeout(function () {
+                        key.classList.add('chosen-select');
+                        window.jQuery(key).chosen({
+                            disable_search_threshold: 10,
+                            width: '100%',
+                            placeholder_text_single: t('choose', 'Choose…'),
+                        }).on('change', function () {
+                            // Synchronize directly: dispatching a "change"
+                            // here would be caught by chosen again, endlessly.
+                            changed();
+                        });
+                    }, 0);
+                }
+            } else {
+                key = document.createElement('input');
+                key.type = 'text';
+                key.value = pair.key || '';
+            }
             key.className = 'common-pairs-key common-pairs-cell-key';
-            key.value = pair.key || '';
             key.setAttribute('aria-label', options.keyLabel);
-            if (options.keyReadonly) key.readOnly = true;
+            if (options.keyReadonly) {
+                if (key.tagName === 'SELECT') {
+                    key.disabled = true;
+                } else {
+                    key.readOnly = true;
+                }
+            }
             row.appendChild(key);
             if (!isList) {
                 const value = document.createElement('input');
@@ -196,7 +256,8 @@
                 value.value = pair.value || '';
                 value.setAttribute('aria-label', options.valueLabel);
                 const keys = knownKeys(options);
-                if (options.keyFill && keys[pair.key] && keys[pair.key] !== pair.key) value.placeholder = keys[pair.key];
+                const keyLabel = keys.get(String(pair.key));
+                if (options.keyFill && keyLabel && keyLabel !== pair.key) value.placeholder = keyLabel;
                 row.appendChild(value);
             }
             const remove = document.createElement('button');
@@ -236,7 +297,8 @@
                 const key = picker.value;
                 if (!key) return;
                 const keys = knownKeys(options);
-                addRow({key: key, value: options.keyFill && !isList && keys[key] !== key ? keys[key] : ''}, false);
+                const keyLabel = keys.get(String(key));
+                addRow({key: key, value: options.keyFill && !isList && keyLabel !== key ? keyLabel : ''}, false);
                 picker.value = '';
             };
             picker.addEventListener('change', onPick);
@@ -254,6 +316,12 @@
         };
         list.addEventListener('input', function (e) {
             if (e.target.classList.contains('common-pairs-key')) checkKey(e.target);
+            changed();
+        });
+        // A select of keys is edited with "change", and chosen sends it too.
+        list.addEventListener('change', function (e) {
+            if (!e.target.classList.contains('common-pairs-key')) return;
+            checkKey(e.target);
             changed();
         });
         list.addEventListener('click', function (e) {
@@ -409,6 +477,7 @@
                 keyForbidden: format === 'list' ? '' : (d.pairsSeparator || '='),
                 keys: keys,
                 keySource: d.pairsKeySource || '',
+                keySelect: d.pairsKeySelect === '1',
                 keySkip: skip,
                 keyPattern: d.pairsKeyPattern || '',
             },

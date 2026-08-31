@@ -27,6 +27,9 @@ namespace Common\Form\Element;
  *   when keys or key_source is set).
  * - free_keys (bool): the user can type any key (default true).
  * - key_readonly (bool): the key of a row cannot be edited (default false).
+ * - key_select (bool): the key is a select filled with the known keys, instead
+ *   of a text input with a picker (default false). A stored key that is no
+ *   more in the list is kept as an option of its own row.
  * - default_display (string): "form" (default) or "text".
  */
 trait TraitPairsEditor
@@ -58,10 +61,17 @@ trait TraitPairsEditor
             'data-pairs-key-fill' => $keyFill ? '1' : '0',
             'data-pairs-free-keys' => empty($options['free_keys']) && array_key_exists('free_keys', $options) ? '0' : '1',
             'data-pairs-key-readonly' => empty($options['key_readonly']) ? '0' : '1',
+            'data-pairs-key-select' => empty($options['key_select']) ? '0' : '1',
             'data-pairs-default-display' => ($options['default_display'] ?? 'form') === 'text' ? 'text' : 'form',
         ];
         if ($keys) {
-            $attributes['data-pairs-keys'] = json_encode($keys, 320);
+            // Encode as a list of pairs: a json object would list the integer
+            // keys first, so a key like "default" would move to the end.
+            $pairs = [];
+            foreach ($keys as $key => $label) {
+                $pairs[] = [(string) $key, $label];
+            }
+            $attributes['data-pairs-keys'] = json_encode($pairs, 320);
         }
         if ($keySource) {
             $attributes['data-pairs-key-source'] = $keySource;
