@@ -124,21 +124,34 @@
             textarea.value = lines.join('\n');
         }
 
+        var showQuerier = function () {
+            parseToRows();
+            $textarea.hide();
+            $editor.show();
+            $add.show();
+            $toggle.text(t('editAsText', 'Edit as text'));
+        };
+
+        var showText = function () {
+            serialize();
+            $editor.hide();
+            $add.hide();
+            $textarea.show();
+            $toggle.text(t('editAsQuerier', 'Edit with the query builder'));
+        };
+
         $toggle.on('click', function () {
             if ($editor.is(':visible')) {
-                serialize();
-                $editor.hide();
-                $add.hide();
-                $textarea.show();
-                $toggle.text(t('editAsQuerier', 'Edit with the query builder'));
+                showText();
             } else {
-                parseToRows();
-                $textarea.hide();
-                $editor.show();
-                $add.show();
-                $toggle.text(t('editAsText', 'Edit as text'));
+                showQuerier();
             }
         });
+
+        // The element may open on the query builder instead of the raw text.
+        if (textarea.dataset.defaultView === 'querier') {
+            showQuerier();
+        }
 
         $add.on('click', function () {
             $rows.append(makeRow('', ''));

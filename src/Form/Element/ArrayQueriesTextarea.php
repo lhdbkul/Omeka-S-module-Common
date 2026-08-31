@@ -46,7 +46,9 @@ class ArrayQueriesTextarea extends ArrayTextarea
         $this
             ->setAttribute('data-as-key-value', $this->asKeyValue ? '1' : '0')
             ->setAttribute('data-key-value-separator', (string) $this->keyValueSeparator)
-            ->setAttribute('data-query-resource-type', (string) ($this->options['query_resource_type'] ?? 'items'));
+            ->setAttribute('data-query-resource-type', (string) ($this->options['query_resource_type'] ?? 'items'))
+            // The element may open on the query builder instead of the text.
+            ->setAttribute('data-default-view', ($this->options['default_view'] ?? '') === 'querier' ? 'querier' : 'text');
 
         return $this;
     }
