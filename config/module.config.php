@@ -15,6 +15,7 @@ return [
             'Omeka\File\Validator' => Service\File\ValidatorFactory::class,
             // Allow to use the PSR-3 formatter in job.
             'Omeka\Job\Dispatcher' => Service\Job\DispatcherFactory::class,
+            'Common\Job\DispatchStrategy\SynchronousMessenger' => Service\Job\DispatchStrategy\SynchronousMessengerFactory::class,
             // Allow to add the PSR-3 formatter to default logger.
             'Omeka\Logger' => Service\LoggerFactory::class,
             // Backfill of the core secret-key cipher: defer to the core service
