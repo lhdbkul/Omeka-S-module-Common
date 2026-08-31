@@ -43,6 +43,8 @@
         // The user can type any key.
         freeKeys: true,
         keyReadonly: false,
+        // A string forbidden in the keys (the separator of the textarea).
+        keyForbidden: '',
         // Show the header with the labels of the columns.
         header: true,
         // Show the picker and the "+" button.
@@ -219,7 +221,19 @@
                 picker.value = '';
             });
         }
-        list.addEventListener('input', changed);
+        // The separator of the textarea cannot be part of a key (it is split
+        // at its first occurrence), but a value may contain it.
+        const checkKey = function (input) {
+            if (!options.keyForbidden) return;
+            input.setCustomValidity(input.value.indexOf(options.keyForbidden) === -1
+                ? ''
+                : t('keyForbidden', 'The key cannot contain "{separator}".').replace('{separator}', options.keyForbidden));
+            input.reportValidity();
+        };
+        list.addEventListener('input', function (e) {
+            if (e.target.classList.contains('common-pairs-key')) checkKey(e.target);
+            changed();
+        });
         list.addEventListener('click', function (e) {
             const remove = e.target.closest('.common-pairs-remove');
             if (!remove) return;
@@ -370,6 +384,7 @@
                 keyFill: d.pairsKeyFill === '1',
                 freeKeys: d.pairsFreeKeys !== '0',
                 keyReadonly: d.pairsKeyReadonly === '1',
+                keyForbidden: format === 'list' ? '' : (d.pairsSeparator || '='),
                 keys: keys,
                 keySource: d.pairsKeySource || '',
                 keySkip: skip,

@@ -32,6 +32,7 @@ class PairsTextareaAssets extends AbstractHelper
                 'remove' => $translate('Remove'), // @translate
                 'drag' => $translate('Drag to reorder'), // @translate
                 'unparsable' => $translate('The text cannot be edited as a list: fix it or edit it as text.'), // @translate
+                'keyForbidden' => $translate('The key cannot contain "{separator}".'), // @translate
             ],
         ];
 
