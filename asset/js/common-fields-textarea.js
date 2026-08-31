@@ -203,22 +203,25 @@
 
     // ---- Form mode: rows editor ------------------------------------------
 
-    function makePair(pair, keyPlaceholder, valuePlaceholder) {
+    // A group of pairs (values, attributes, options) is an editor of pairs of
+    // Common, without its own actions: the row of the field adds the pairs.
+    function makeGroup(kind, title, keyLabel, valueLabel, pairs, onChange) {
         var $ = window.jQuery;
-        var $pair = $('<div class="cft-pair"></div>');
-        $pair.append($('<input class="cft-pk" type="text">').attr('placeholder', keyPlaceholder).val(pair.k));
-        $pair.append($('<input class="cft-pv" type="text">').attr('placeholder', valuePlaceholder).val(pair.v));
-        $pair.append('<button type="button" class="cft-pair-del o-icon-delete" title="' + t('remove', 'Remove') + '"></button>');
-        return $pair;
-    }
-
-    function makeGroup(kind, title, keyPlaceholder, valuePlaceholder, pairs) {
-        var $ = window.jQuery;
-        var $sub = $('<div class="cft-sub"></div>').attr('data-kind', kind).attr('data-key-ph', keyPlaceholder).attr('data-val-ph', valuePlaceholder);
+        var $sub = $('<div class="cft-sub"></div>').attr('data-kind', kind);
         $sub.append('<span class="cft-sub-title">' + title + '</span>');
-        var $pairs = $('<div class="cft-pairs"></div>');
-        pairs.forEach(function (p) { $pairs.append(makePair(p, keyPlaceholder, valuePlaceholder)); });
-        $sub.append($pairs);
+        var editor = window.CommonPairsEditor.create($sub[0], {
+            keyLabel: keyLabel,
+            valueLabel: valueLabel,
+            sortable: kind === 'values',
+            actions: false,
+            onChange: function () {
+                if (!editor.count()) {
+                    $sub.hide();
+                }
+                onChange();
+            },
+        }, pairs.map(function (p) { return { key: p.k, value: p.v }; }));
+        $sub[0].pairsEditor = editor;
         if (!pairs.length) {
             $sub.hide();
         }
@@ -249,10 +252,13 @@
         $subactions.append('<button type="button" class="cft-subaction o-icon-add" data-kind="attributes">' + t('addAttribute', 'Add an attribute') + '</button>');
         $subactions.append('<button type="button" class="cft-subaction o-icon-add" data-kind="options">' + t('addOption', 'Add an option') + '</button>');
 
+        var changed = function () {
+            $row.trigger('cft:change');
+        };
         var $groups = $('<div class="cft-groups"></div>');
-        $groups.append(makeGroup('values', t('valuesTitle', 'Values'), val, t('colLabel', 'label'), data.values));
-        $groups.append(makeGroup('attributes', t('attributesTitle', 'Attributes'), key, val, data.attributes));
-        $groups.append(makeGroup('options', t('optionsTitle', 'Options'), key, val, data.options));
+        $groups.append(makeGroup('values', t('valuesTitle', 'Values'), val, t('colLabel', 'label'), data.values, changed));
+        $groups.append(makeGroup('attributes', t('attributesTitle', 'Attributes'), key, val, data.attributes, changed));
+        $groups.append(makeGroup('options', t('optionsTitle', 'Options'), key, val, data.options, changed));
 
         $row.append($line1).append($subactions).append($groups);
         toggleValues($row);
@@ -266,17 +272,19 @@
         var $values = $row.find('.cft-sub[data-kind="values"]');
         if (!withValues) {
             $values.hide();
-        } else if ($values.find('.cft-pair').length) {
+        } else if ($values[0].pairsEditor && $values[0].pairsEditor.count()) {
             $values.show();
         }
     }
 
     function readPairs($row, kind) {
-        var $ = window.jQuery;
-        return $row.find('.cft-sub[data-kind="' + kind + '"] .cft-pair').map(function () {
-            var $p = $(this);
-            return { k: $p.find('.cft-pk').val(), v: $p.find('.cft-pv').val() };
-        }).get();
+        var sub = $row.find('.cft-sub[data-kind="' + kind + '"]')[0];
+        if (!sub || !sub.pairsEditor) {
+            return [];
+        }
+        return sub.pairsEditor.getRows().map(function (p) {
+            return { k: p.key, v: p.value };
+        });
     }
 
     function readRow($row) {
@@ -360,7 +368,7 @@
 
     function buildEditor(textarea) {
         var $ = window.jQuery;
-        if (!$ || !window.jsyaml) {
+        if (!$ || !window.jsyaml || !window.CommonPairsEditor) {
             return;
         }
         var $textarea = $(textarea);
@@ -431,8 +439,13 @@
             $previewPanel.empty().append(renderPreview(currentFields()));
         }
         $editor.on('input change', refreshPreview);
-        $editor.on('click', '.cft-remove-field, .cft-pair-del, .cft-subaction, .cft-up, .cft-down, .cft-add', function () {
+        $editor.on('click', '.cft-remove-field, .cft-subaction, .cft-up, .cft-down, .cft-add', function () {
             window.setTimeout(refreshPreview, 0);
+        });
+        // Changes inside the groups of pairs (removal, reorder).
+        $editor.on('cft:change', '.cft-row', function () {
+            serialize($rows, textarea);
+            refreshPreview();
         });
 
         // Disable the up button of the first field and the down button of the
@@ -451,6 +464,9 @@
             $(this).closest('.cft-row').attr('draggable', 'true');
         });
         $editor.on('dragstart', '.cft-row', function (event) {
+            if ($(event.target).closest('.common-pairs-row').length) {
+                return;
+            }
             dragged = this;
             $(this).addClass('cft-dragging');
             try {
@@ -487,19 +503,11 @@
             updateMoveButtons();
             serialize($rows, textarea);
         });
-        $editor.on('click', '.cft-pair-del', function () {
-            var $sub = $(this).closest('.cft-sub');
-            $(this).closest('.cft-pair').remove();
-            if (!$sub.find('.cft-pair').length) {
-                $sub.hide();
-            }
-            serialize($rows, textarea);
-        });
         $editor.on('click', '.cft-subaction', function () {
             var kind = $(this).attr('data-kind');
             var $sub = $(this).closest('.cft-row').find('.cft-sub[data-kind="' + kind + '"]');
             $sub.show();
-            $sub.find('.cft-pairs').append(makePair({ k: '', v: '' }, $sub.attr('data-key-ph'), $sub.attr('data-val-ph')));
+            $sub[0].pairsEditor.addRow(null, true);
         });
         $editor.on('click', '.cft-up', function () {
             var $row = $(this).closest('.cft-row');

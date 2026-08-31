@@ -21,6 +21,8 @@ use Laminas\InputFilter\InputProviderInterface;
  */
 class IniTextarea extends Textarea implements InputProviderInterface
 {
+    use TraitPairsEditor;
+
     /**
      * Separator for nesting levels of configuration data identifiers.
      *
@@ -103,6 +105,9 @@ class IniTextarea extends Textarea implements InputProviderInterface
         }
         if (array_key_exists('ini_allow_double_quotes', $this->options)) {
             $this->setAllowDoubleQuotes($this->options['ini_allow_double_quotes']);
+        }
+        if (array_key_exists('pairs_editor', $this->options)) {
+            $this->setPairsEditor($this->options['pairs_editor']);
         }
         return $this;
     }

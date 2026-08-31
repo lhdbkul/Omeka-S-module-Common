@@ -1,0 +1,124 @@
+/**
+ * Editor of pairs "key = value" for the textareas.
+ */
+
+@media all {
+    .common-pairs-wrapper,
+    .common-pairs {
+        width: 100%;
+    }
+    .common-pairs > textarea {
+        width: 100%;
+        margin-bottom: 0.5em;
+    }
+    .common-pairs-actions > .common-pairs-toggle {
+        margin: 0 0 0 auto;
+    }
+    .common-pairs-rows {
+        border: 1px solid #dfdfdf;
+        background: #fff;
+        margin-bottom: 0.5em;
+    }
+    .common-pairs-head,
+    .common-pairs-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.25em 0.5em 0.25em 0;
+    }
+    .common-pairs-head {
+        font-size: 0.85em;
+        color: #676767;
+        background: #f7f7f7;
+        border-bottom: 1px solid #dfdfdf;
+        padding-left: 0.5em;
+    }
+    .common-pairs-row + .common-pairs-row {
+        border-top: 1px solid #efefef;
+    }
+    .common-pairs-row.dragging {
+        opacity: 0.4;
+    }
+    .common-pairs-list:empty {
+        min-height: 1.5em;
+    }
+    .common-pairs-cell-handle {
+        flex: 0 0 12px;
+        align-self: stretch;
+        margin: -0.25em 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f0f0f0;
+        border-right: 1px solid #dfdfdf;
+        cursor: move;
+    }
+    .common-pairs-head .common-pairs-cell-handle {
+        background: none;
+        border: none;
+        cursor: default;
+    }
+    .common-pairs-cell-handle::before {
+        font-size: 10px;
+        line-height: 1;
+    }
+    .common-pairs-cell-key {
+        flex: 1 1 40%;
+        min-width: 0;
+    }
+    .common-pairs-cell-value {
+        flex: 1 1 60%;
+        min-width: 0;
+    }
+    .common-pairs-cell-remove {
+        flex: 0 0 1.5em;
+    }
+    .common-pairs-row input {
+        width: 100%;
+        margin: 0;
+    }
+    .common-pairs-row input[readonly] {
+        background: #f7f7f7;
+    }
+    .common-pairs-remove {
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        min-height: 0;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #a91919;
+        font-size: 0.85em;
+        cursor: pointer;
+    }
+    .common-pairs-remove:hover,
+    .common-pairs-remove:focus-visible {
+        color: #e11717;
+        background-color: rgba(169, 25, 25, 0.08);
+        border-radius: 3px;
+    }
+    .common-pairs-actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    .common-pairs-picker {
+        flex: 1 1 auto;
+        width: auto;
+        max-width: 60%;
+        margin: 0;
+    }
+    .common-pairs-add {
+        margin: 0;
+    }
+    .common-pairs-notice {
+        color: #a91919;
+        font-size: 0.85em;
+    }
+}

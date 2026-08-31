@@ -156,8 +156,7 @@
     }
 
     .common-fields-textarea-editor .cft-subaction:focus-visible,
-    .common-fields-textarea-editor .cft-remove-field:focus-visible,
-    .common-fields-textarea-editor .cft-pair-del:focus-visible {
+    .common-fields-textarea-editor .cft-remove-field:focus-visible {
         outline: 2px solid #555 !important;
         outline-offset: 1px;
     }
@@ -186,32 +185,11 @@
         margin-bottom: 0.15rem;
     }
 
-    .common-fields-textarea-editor .cft-pair {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        gap: 0.25rem;
+    .common-fields-textarea-editor .cft-sub .common-pairs-rows {
         margin-bottom: 0.15rem;
     }
-
-    .common-fields-textarea-editor .cft-pk {
-        flex: 0 0 10rem;
-    }
-
-    .common-fields-textarea-editor .cft-pv {
-        flex: 1 1 10rem;
-    }
-
-    .common-fields-textarea-editor .cft-pair-del {
-        flex: 0 0 auto;
-        cursor: pointer;
-        border: 0;
-        background: transparent;
-        color: #999;
-    }
-
-    .common-fields-textarea-editor .cft-pair-del:hover {
-        color: #666;
+    .common-fields-textarea-editor .cft-sub .common-pairs-row input {
+        width: 100% !important;
     }
 
     .cft-preview-panel {

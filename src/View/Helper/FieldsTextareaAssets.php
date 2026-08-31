@@ -66,6 +66,9 @@ class FieldsTextareaAssets extends AbstractHelper
             ],
         ];
 
+        // The groups of pairs use the editor of pairs.
+        $view->pairsTextareaAssets();
+
         $assetUrl = $view->plugin('assetUrl');
         $view->headLink()
             ->appendStylesheet($assetUrl('css/common-fields-textarea.css', 'Common'));

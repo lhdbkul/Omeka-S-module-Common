@@ -6,6 +6,8 @@ use Omeka\Form\Element\ArrayTextarea;
 
 class DataTextarea extends ArrayTextarea
 {
+    use TraitPairsEditor;
+
     /**
      * @var array
      */
@@ -75,6 +77,9 @@ class DataTextarea extends ArrayTextarea
             && is_array($this->options['data_associative_keys'])
         ) {
             $this->dataAssociativeKeys = $this->options['data_associative_keys'];
+        }
+        if (array_key_exists('pairs_editor', $this->options)) {
+            $this->setPairsEditor($this->options['pairs_editor']);
         }
 
         return $this;
