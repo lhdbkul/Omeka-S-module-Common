@@ -38,6 +38,8 @@
         // A css selector of a select whose options complete the known keys.
         keySource: '',
         keySkip: [],
+        // A regex: only the matching keys of the source are proposed.
+        keyPattern: '',
         // Fill the value with the default of the key when picked.
         keyFill: true,
         // The user can type any key.
@@ -60,9 +62,11 @@
         if (options.keySource) {
             const source = document.querySelector(options.keySource);
             if (source) {
+                const pattern = options.keyPattern ? new RegExp(options.keyPattern) : null;
                 Array.from(source.querySelectorAll('option')).forEach(function (opt) {
                     if (opt.value === '' || opt.disabled) return;
                     if (options.keySkip.indexOf(opt.value) !== -1) return;
+                    if (pattern && !pattern.test(opt.value)) return;
                     if (!(opt.value in keys)) keys[opt.value] = opt.textContent.trim();
                 });
             }
@@ -406,6 +410,7 @@
                 keys: keys,
                 keySource: d.pairsKeySource || '',
                 keySkip: skip,
+                keyPattern: d.pairsKeyPattern || '',
             },
         };
     };

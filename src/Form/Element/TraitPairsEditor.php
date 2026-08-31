@@ -69,6 +69,9 @@ trait TraitPairsEditor
         if (!empty($options['key_skip'])) {
             $attributes['data-pairs-key-skip'] = json_encode(array_values($options['key_skip']), 320);
         }
+        if (!empty($options['key_pattern'])) {
+            $attributes['data-pairs-key-pattern'] = $options['key_pattern'];
+        }
         foreach ($attributes as $name => $value) {
             $this->setAttribute($name, $value);
         }
