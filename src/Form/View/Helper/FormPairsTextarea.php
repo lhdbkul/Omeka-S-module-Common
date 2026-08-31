@@ -14,7 +14,19 @@ class FormPairsTextarea extends FormTextarea
     {
         $class = ' ' . (string) $element->getAttribute('class') . ' ';
         if (strpos($class, ' common-pairs-textarea ') !== false) {
-            $this->getView()->pairsTextareaAssets();
+            $view = $this->getView();
+            $view->pairsTextareaAssets();
+            // The labels of the columns are data attributes, so they are not
+            // translated by the standard rendering of the element. Do not
+            // modify the element itself: it may be rendered more than once.
+            $translate = $view->plugin('translate');
+            $element = clone $element;
+            foreach (['data-pairs-key-label', 'data-pairs-value-label'] as $attribute) {
+                $label = (string) $element->getAttribute($attribute);
+                if ($label !== '') {
+                    $element->setAttribute($attribute, $translate($label));
+                }
+            }
         }
         return parent::render($element);
     }

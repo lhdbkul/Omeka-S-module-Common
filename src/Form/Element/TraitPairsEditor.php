@@ -31,6 +31,10 @@ namespace Common\Form\Element;
  *   of a text input with a picker (default false). A stored key that is no
  *   more in the list is kept as an option of its own row.
  * - default_display (string): "form" (default) or "text".
+ * - label_as_note (bool): the label of the element describes the syntax of the
+ *   text, so remove its column, that wastes the width of a form with a single
+ *   field, and display it as a note above the textarea in the text mode only
+ *   (default false).
  */
 trait TraitPairsEditor
 {
@@ -63,6 +67,7 @@ trait TraitPairsEditor
             'data-pairs-key-readonly' => empty($options['key_readonly']) ? '0' : '1',
             'data-pairs-key-select' => empty($options['key_select']) ? '0' : '1',
             'data-pairs-default-display' => ($options['default_display'] ?? 'form') === 'text' ? 'text' : 'form',
+            'data-pairs-label-as-note' => empty($options['label_as_note']) ? '0' : '1',
         ];
         if ($keys) {
             // Encode as a list of pairs: a json object would list the integer

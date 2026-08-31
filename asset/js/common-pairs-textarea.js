@@ -102,6 +102,7 @@
         if (options.header) {
             table.innerHTML = '<div class="common-pairs-head">'
                 + (options.sortable ? '<span class="common-pairs-cell-handle"></span>' : '')
+                + (options.sortable ? '<span class="common-pairs-cell-moves"></span>' : '')
                 + '<span class="common-pairs-cell-key">' + escapeHtml(options.keyLabel) + '</span>'
                 + (isList ? '' : '<span class="common-pairs-cell-value">' + escapeHtml(options.valueLabel) + '</span>')
                 + '<span class="common-pairs-cell-remove"></span>'
@@ -181,8 +182,35 @@
             }
         };
 
+        const refreshMoves = function () {
+            if (!options.sortable) return;
+            const rows = list.querySelectorAll('.common-pairs-row');
+            rows.forEach(function (row, i) {
+                const up = row.querySelector('.common-pairs-up');
+                const down = row.querySelector('.common-pairs-down');
+                if (up) up.disabled = i === 0;
+                if (down) down.disabled = i === rows.length - 1;
+            });
+        };
+
+        /**
+         * Move a row up (-1) or down (1). Return false when it cannot move.
+         */
+        const moveRow = function (row, delta) {
+            const sibling = delta < 0 ? row.previousElementSibling : row.nextElementSibling;
+            if (!sibling) return false;
+            if (delta < 0) {
+                list.insertBefore(row, sibling);
+            } else {
+                list.insertBefore(sibling, row);
+            }
+            changed();
+            return true;
+        };
+
         const changed = function () {
             refreshPicker();
+            refreshMoves();
             if (options.onChange) options.onChange(getRows());
         };
 
@@ -190,7 +218,23 @@
             const row = document.createElement('div');
             row.className = 'common-pairs-row';
             if (options.sortable) {
-                row.innerHTML = '<span class="common-pairs-cell-handle sortable-handle" title="' + escapeHtml(t('drag', 'Drag to reorder')) + '"></span>';
+                row.innerHTML = '<button type="button" class="common-pairs-cell-handle sortable-handle"'
+                    + ' title="' + escapeHtml(t('drag', 'Drag to reorder')) + '"'
+                    + ' aria-label="' + escapeHtml(t('move', 'Move: use the up and down arrows to reorder')) + '"'
+                    // The bare arrows are the announced command; the variant
+                    // with Alt is the one of the collections of AdvancedSearch,
+                    // and it works here too, so a learned habit never fails.
+                    + ' aria-keyshortcuts="ArrowUp ArrowDown Alt+ArrowUp Alt+ArrowDown"></button>'
+                    // A drag is not usable by everyone, so the rows also move
+                    // with two buttons, like the collections of fieldsets.
+                    + '<span class="common-pairs-cell-moves">'
+                    + '<button type="button" class="common-pairs-up o-icon- fas fa-caret-up"'
+                    + ' aria-label="' + escapeHtml(t('up', 'Move up')) + '"'
+                    + ' title="' + escapeHtml(t('up', 'Move up')) + '"></button>'
+                    + '<button type="button" class="common-pairs-down o-icon- fas fa-caret-down"'
+                    + ' aria-label="' + escapeHtml(t('down', 'Move down')) + '"'
+                    + ' title="' + escapeHtml(t('down', 'Move down')) + '"></button>'
+                    + '</span>';
             }
             // The key is a select when the keys are a closed list, so the
             // user picks it instead of typing an id or a slug.
@@ -285,6 +329,7 @@
             list.innerHTML = '';
             (rows || []).forEach(function (pair) { list.appendChild(makeRow(pair)); });
             refreshPicker();
+            refreshMoves();
         };
 
         if (addButton) {
@@ -327,8 +372,43 @@
         list.addEventListener('click', function (e) {
             const remove = e.target.closest('.common-pairs-remove');
             if (!remove) return;
-            remove.closest('.common-pairs-row').remove();
+            const row = remove.closest('.common-pairs-row');
+            // Keep the focus in the editor: the next row, else the previous
+            // one, else the button to add a row.
+            const next = row.nextElementSibling || row.previousElementSibling;
+            row.remove();
+            const target = next
+                ? next.querySelector('.common-pairs-remove')
+                : (addButton || null);
+            if (target) target.focus();
             changed();
+        });
+
+        // The rows are reordered with the arrows from the handle, with or
+        // without Alt. The default is always prevented, so the page never
+        // scrolls from the handle, not even at the ends of the list.
+        list.addEventListener('keydown', function (e) {
+            const handle = e.target.closest('.common-pairs-cell-handle');
+            if (!handle || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return;
+            e.preventDefault();
+            if (moveRow(handle.closest('.common-pairs-row'), e.key === 'ArrowUp' ? -1 : 1)) {
+                handle.focus();
+            }
+        });
+
+        // The buttons do the same as the drag, for the pointer and the touch.
+        list.addEventListener('click', function (e) {
+            const button = e.target.closest('.common-pairs-up, .common-pairs-down');
+            if (!button) return;
+            const up = button.classList.contains('common-pairs-up');
+            const row = button.closest('.common-pairs-row');
+            if (!moveRow(row, up ? -1 : 1)) return;
+            // The button of an end becomes disabled, so move the focus to the
+            // other one rather than losing it on the body.
+            const target = button.disabled
+                ? row.querySelector(up ? '.common-pairs-down' : '.common-pairs-up')
+                : button;
+            if (target) target.focus();
         });
         list.addEventListener('keydown', function (e) {
             if (e.key !== 'Enter' || !e.target.matches('input')) return;
@@ -466,6 +546,7 @@
             format: format,
             separator: d.pairsSeparator || '=',
             defaultDisplay: d.pairsDefaultDisplay === 'text' ? 'text' : 'form',
+            labelAsNote: d.pairsLabelAsNote === '1',
             editor: {
                 keyLabel: d.pairsKeyLabel || '',
                 valueLabel: d.pairsValueLabel || '',
@@ -491,6 +572,18 @@
 
         const wrapper = document.createElement('div');
         wrapper.className = 'common-pairs-wrapper';
+        // The label of the field points to the textarea, that is hidden in the
+        // form mode, so the group is named by the same label.
+        wrapper.setAttribute('role', 'group');
+        const labels = textarea.labels && textarea.labels.length ? textarea.labels : null;
+        if (labels) {
+            const ids = [];
+            Array.prototype.forEach.call(labels, function (label, index) {
+                if (!label.id) label.id = (textarea.id || 'common-pairs') + '-label-' + index;
+                ids.push(label.id);
+            });
+            wrapper.setAttribute('aria-labelledby', ids.join(' '));
+        }
         textarea.parentNode.insertBefore(wrapper, textarea);
 
         let syncing = false;
@@ -519,6 +612,28 @@
         actions.appendChild(toggle);
         const formOnly = Array.from(actions.querySelectorAll('.common-pairs-picker, .common-pairs-add'));
 
+        // A label that describes the syntax of the text only makes sense in the
+        // text mode, and its column wastes the width of a form with a single
+        // field. So hide the column and repeat the text as a note above the
+        // textarea. The label stays in the dom: it still names the group, and
+        // a reference of aria-labelledby may point to a hidden element.
+        const textOnly = [];
+        if (options.labelAsNote && labels) {
+            const note = document.createElement('p');
+            note.className = 'common-pairs-note';
+            note.textContent = labels[0].textContent.trim();
+            textarea.parentNode.insertBefore(note, textarea);
+            textOnly.push(note);
+            Array.prototype.forEach.call(labels, function (label) {
+                const meta = label.closest('.field-meta');
+                (meta || label).hidden = true;
+                // The core gives a fixed width to the inputs, so the field is
+                // marked to take back the width left by the hidden column.
+                const field = label.closest('.field');
+                if (field) field.classList.add('common-pairs-field-note');
+            });
+        }
+
         const build = function () {
             const rows = parse(textarea.value, options);
             if (rows === null) return false;
@@ -537,6 +652,7 @@
             formMode = form;
             table.hidden = !form;
             formOnly.forEach(function (el) { el.hidden = !form; });
+            textOnly.forEach(function (el) { el.hidden = form; });
             textarea.hidden = form;
             toggle.textContent = form ? t('editAsText', 'Edit as text') : t('editAsForm', 'Edit as a form');
         };

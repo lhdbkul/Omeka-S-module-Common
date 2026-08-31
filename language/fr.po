@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-03 00:00+0000\n"
+"POT-Creation-Date: 2026-08-27 08:15+0000\n"
 "PO-Revision-Date: 2026-08-03 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
@@ -60,6 +60,7 @@ msgstr "Modifier avec le requêteur"
 
 #: src/View/Helper/ArrayQueriesTextareaAssets.php:37
 #: src/View/Helper/FieldsTextareaAssets.php:44
+#: src/View/Helper/PairsTextareaAssets.php:27
 msgid "Edit as text"
 msgstr "Modifier par texte"
 
@@ -69,10 +70,12 @@ msgstr "Ajouter une requête"
 
 #: src/View/Helper/ArrayQueriesTextareaAssets.php:43
 #: src/View/Helper/FieldsTextareaAssets.php:58
+#: src/View/Helper/PairsTextareaAssets.php:28
 msgid "key"
 msgstr "clé"
 
 #: src/View/Helper/FieldsTextareaAssets.php:43
+#: src/View/Helper/PairsTextareaAssets.php:26
 msgid "Edit as a form"
 msgstr "Modifier par formulaire"
 
@@ -109,6 +112,7 @@ msgid "Add an attribute"
 msgstr "Ajouter un attribut"
 
 #: src/View/Helper/FieldsTextareaAssets.php:59
+#: src/View/Helper/PairsTextareaAssets.php:29
 msgid "value"
 msgstr "valeur"
 
@@ -121,10 +125,12 @@ msgid "Move"
 msgstr "Déplacer"
 
 #: src/View/Helper/FieldsTextareaAssets.php:63
+#: src/View/Helper/PairsTextareaAssets.php:35
 msgid "Move up"
 msgstr "Déplacer avant"
 
 #: src/View/Helper/FieldsTextareaAssets.php:64
+#: src/View/Helper/PairsTextareaAssets.php:36
 msgid "Move down"
 msgstr "Déplacer après"
 
@@ -132,6 +138,28 @@ msgstr "Déplacer après"
 msgid "The YAML cannot be parsed. Fix it before switching to the form."
 msgstr ""
 "Le YAML ne peut pas être lu. Corriger avant de basculer sur le formulaire."
+
+#: src/View/Helper/PairsTextareaAssets.php:31
+msgid "Add…"
+msgstr "Ajouter…"
+
+#: src/View/Helper/PairsTextareaAssets.php:33
+msgid "Drag to reorder"
+msgstr "Glisser pour réordonner"
+
+#: src/View/Helper/PairsTextareaAssets.php:34
+msgid "Move: use the up and down arrows to reorder"
+msgstr "Déplacer : utilisez les flèches haut et bas pour réordonner"
+
+#: src/View/Helper/PairsTextareaAssets.php:37
+msgid "The text cannot be edited as a list: fix it or edit it as text."
+msgstr ""
+"Le texte ne peut pas être modifié en liste : corrigez-le ou modifiez-le en "
+"texte."
+
+#: src/View/Helper/PairsTextareaAssets.php:38
+msgid "The key cannot contain \"{separator}\"."
+msgstr "La clé ne peut pas contenir « {separator} »."
 
 #: data/scripts/upgrade.php:118
 msgid ""
@@ -147,13 +175,13 @@ msgstr ""
 "aria-live sur les messages. Les modules et les thèmes reprenant ce gabarit "
 "ou utilisant ses classes css doivent être vérifiées."
 
-#: Module.php:113
+#: Module.php:116
 msgid "A secret key was generated in config/secret_key.php to encrypt secrets."
 msgstr ""
 "Une clé secrète a été créée dans config/secret_key.php pour chiffrer les "
 "secrets."
 
-#: Module.php:116
+#: Module.php:119
 msgid ""
 "The secret key could not be created: set it manually in config/"
 "secret_key.php or set the environment variable \"OMEKA_SECRET_KEY\" to "
@@ -164,7 +192,7 @@ msgstr ""
 "\"OMEKA_SECRET_KEY\" pour chiffrer les secrets (clés d’api des modules, "
 "etc.)."
 
-#: Module.php:147
+#: Module.php:150
 msgid ""
 "The php extension \"intl\" is not available. It is recommended to install it "
 "to manage diacritics and non-latin characters and to translate dates, "
@@ -174,15 +202,15 @@ msgstr ""
 "gérer les caractères diacritiques et non-latin et pour traduire les dates, "
 "les nombres et plus."
 
-#: Module.php:337
+#: Module.php:340
 msgid "Added {count} database indexes: {list}."
 msgstr "{count} index ajoutés avec succès : {list}"
 
-#: Module.php:343
+#: Module.php:346
 msgid "Failed to add {count} database indexes: {list}."
 msgstr "Échec de l’ajout de {count} index dans la base de données : {list}"
 
-#: Module.php:375
+#: Module.php:378
 msgid ""
 "PHP-CLI unavailable for {count} large-table indexes ({list}). Ask your DBA "
 "to run: {sql}"
@@ -190,7 +218,7 @@ msgstr ""
 "L’accès php via cli n’est pas disponible pour {count} index avec de grandes "
 "tables ({list}). Lancer la commande suivant manuellement : {sql}"
 
-#: Module.php:387
+#: Module.php:390
 msgid ""
 "{count} large-table indexes are being added in background with online DDL "
 "({list}). Track progress in logs/common-add-index.log."
@@ -198,9 +226,17 @@ msgstr ""
 "{count} index pour des grandes tables ont été ajoutés en arrière plan "
 "({list}). Suivez la progression dans le fichier logs/common-add-index.log."
 
-#: Module.php:423
+#: Module.php:426
 msgid "The module Generic is no longer needed and can be removed."
 msgstr "Le module Generic n’est plus nécessaire et peut être supprimé."
+
+#: src/Log/Writer/Messenger.php:93
+msgid ""
+"Only the first {count} messages are displayed: see the job log for the other "
+"ones."
+msgstr ""
+"Seuls les {count} premiers messages sont affichés : voir le journal de la "
+"tâche pour les autres."
 
 #: src/Mvc/Controller/Plugin/SpecifyMediaType.php:176
 msgid ""
@@ -360,11 +396,11 @@ msgstr "Le chemin n’est pas à l’intérieur du chemin prévu"
 msgid "[No site]"
 msgstr "[Aucun site]"
 
-#: src/Form/Element/IniTextarea.php:142
+#: src/Form/Element/IniTextarea.php:147
 msgid "Invalid ini string or values with double quotes"
 msgstr "Chaîne ini invalide ou valeurs avec des guillemets droits"
 
-#: src/Form/Element/IniTextarea.php:186
+#: src/Form/Element/IniTextarea.php:191
 msgid "The field {label} has an issue: {msg}"
 msgstr "Le champ {label} a un problème : {msg}"
 
@@ -599,7 +635,7 @@ msgid ""
 msgstr ""
 "Ce module requiert le module « {module} », version {version} ou supérieure."
 
-#: src/TraitModule.php:1416
+#: src/TraitModule.php:1440
 msgid ""
 "The module \"{module}\" was automatically deactivated because the "
 "dependencies are unavailable."
@@ -726,15 +762,15 @@ msgid ""
 msgstr ""
 "Le dossier « {path} » ne peut pas être protégé par un .htaccess : {error}."
 
-#: config/module.config.php:179
+#: config/module.config.php:183
 msgid "An error occurred."
 msgstr "Une erreur est survenue."
 
-#: config/module.config.php:183
+#: config/module.config.php:187
 msgid "Information"
 msgstr "Information"
 
-#: config/module.config.php:185
+#: config/module.config.php:189
 msgid "OK"
 msgstr "OK"
 

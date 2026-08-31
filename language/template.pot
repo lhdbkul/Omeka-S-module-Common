@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-03 00:00+0000\n"
+"POT-Creation-Date: 2026-08-27 08:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,6 +60,7 @@ msgstr ""
 
 #: src/View/Helper/ArrayQueriesTextareaAssets.php:37
 #: src/View/Helper/FieldsTextareaAssets.php:44
+#: src/View/Helper/PairsTextareaAssets.php:27
 msgid "Edit as text"
 msgstr ""
 
@@ -69,10 +70,12 @@ msgstr ""
 
 #: src/View/Helper/ArrayQueriesTextareaAssets.php:43
 #: src/View/Helper/FieldsTextareaAssets.php:58
+#: src/View/Helper/PairsTextareaAssets.php:28
 msgid "key"
 msgstr ""
 
 #: src/View/Helper/FieldsTextareaAssets.php:43
+#: src/View/Helper/PairsTextareaAssets.php:26
 msgid "Edit as a form"
 msgstr ""
 
@@ -109,6 +112,7 @@ msgid "Add an attribute"
 msgstr ""
 
 #: src/View/Helper/FieldsTextareaAssets.php:59
+#: src/View/Helper/PairsTextareaAssets.php:29
 msgid "value"
 msgstr ""
 
@@ -121,15 +125,37 @@ msgid "Move"
 msgstr ""
 
 #: src/View/Helper/FieldsTextareaAssets.php:63
+#: src/View/Helper/PairsTextareaAssets.php:35
 msgid "Move up"
 msgstr ""
 
 #: src/View/Helper/FieldsTextareaAssets.php:64
+#: src/View/Helper/PairsTextareaAssets.php:36
 msgid "Move down"
 msgstr ""
 
 #: src/View/Helper/FieldsTextareaAssets.php:65
 msgid "The YAML cannot be parsed. Fix it before switching to the form."
+msgstr ""
+
+#: src/View/Helper/PairsTextareaAssets.php:31
+msgid "Add…"
+msgstr ""
+
+#: src/View/Helper/PairsTextareaAssets.php:33
+msgid "Drag to reorder"
+msgstr ""
+
+#: src/View/Helper/PairsTextareaAssets.php:34
+msgid "Move: use the up and down arrows to reorder"
+msgstr ""
+
+#: src/View/Helper/PairsTextareaAssets.php:37
+msgid "The text cannot be edited as a list: fix it or edit it as text."
+msgstr ""
+
+#: src/View/Helper/PairsTextareaAssets.php:38
+msgid "The key cannot contain \"{separator}\"."
 msgstr ""
 
 #: data/scripts/upgrade.php:118
@@ -141,46 +167,52 @@ msgid ""
 "classes should be reviewed and updated accordingly."
 msgstr ""
 
-#: Module.php:113
+#: Module.php:116
 msgid "A secret key was generated in config/secret_key.php to encrypt secrets."
 msgstr ""
 
-#: Module.php:116
+#: Module.php:119
 msgid ""
 "The secret key could not be created: set it manually in config/"
 "secret_key.php or set the environment variable \"OMEKA_SECRET_KEY\" to "
 "encrypt secrets (module api keys, etc.)."
 msgstr ""
 
-#: Module.php:147
+#: Module.php:150
 msgid ""
 "The php extension \"intl\" is not available. It is recommended to install it "
 "to manage diacritics and non-latin characters and to translate dates, "
 "numbers and more."
 msgstr ""
 
-#: Module.php:337
+#: Module.php:340
 msgid "Added {count} database indexes: {list}."
 msgstr ""
 
-#: Module.php:343
+#: Module.php:346
 msgid "Failed to add {count} database indexes: {list}."
 msgstr ""
 
-#: Module.php:375
+#: Module.php:378
 msgid ""
 "PHP-CLI unavailable for {count} large-table indexes ({list}). Ask your DBA "
 "to run: {sql}"
 msgstr ""
 
-#: Module.php:387
+#: Module.php:390
 msgid ""
 "{count} large-table indexes are being added in background with online DDL "
 "({list}). Track progress in logs/common-add-index.log."
 msgstr ""
 
-#: Module.php:423
+#: Module.php:426
 msgid "The module Generic is no longer needed and can be removed."
+msgstr ""
+
+#: src/Log/Writer/Messenger.php:93
+msgid ""
+"Only the first {count} messages are displayed: see the job log for the other "
+"ones."
 msgstr ""
 
 #: src/Mvc/Controller/Plugin/SpecifyMediaType.php:176
@@ -320,11 +352,11 @@ msgstr ""
 msgid "[No site]"
 msgstr ""
 
-#: src/Form/Element/IniTextarea.php:142
+#: src/Form/Element/IniTextarea.php:147
 msgid "Invalid ini string or values with double quotes"
 msgstr ""
 
-#: src/Form/Element/IniTextarea.php:186
+#: src/Form/Element/IniTextarea.php:191
 msgid "The field {label} has an issue: {msg}"
 msgstr ""
 
@@ -522,7 +554,7 @@ msgid ""
 "This module requires the module \"{module}\", version {version} or above."
 msgstr ""
 
-#: src/TraitModule.php:1416
+#: src/TraitModule.php:1440
 msgid ""
 "The module \"{module}\" was automatically deactivated because the "
 "dependencies are unavailable."
@@ -643,14 +675,14 @@ msgid ""
 "The directory \"{path}\" could not be protected with a .htaccess: {error}."
 msgstr ""
 
-#: config/module.config.php:179
+#: config/module.config.php:183
 msgid "An error occurred."
 msgstr ""
 
-#: config/module.config.php:183
+#: config/module.config.php:187
 msgid "Information"
 msgstr ""
 
-#: config/module.config.php:185
+#: config/module.config.php:189
 msgid "OK"
 msgstr ""
