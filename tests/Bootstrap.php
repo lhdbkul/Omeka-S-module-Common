@@ -4,6 +4,7 @@ namespace CommonTest;
 
 use Laminas\Config\Reader\Ini;
 use Omeka\Module\Manager as ModuleManager;
+use Laminas\Mvc\Application as LaminasApplication;
 use Omeka\Mvc\Application;
 use Omeka\Test\DbTestCase;
 
@@ -52,7 +53,7 @@ class Bootstrap
     protected static $config;
 
     /**
-     * @var Application
+     * @var LaminasApplication
      */
     protected static $application;
 
@@ -191,9 +192,9 @@ class Bootstrap
     /**
      * Get a fresh application instance.
      *
-     * @return Application
+     * @return LaminasApplication
      */
-    public static function getApplication(): Application
+    public static function getApplication(): LaminasApplication
     {
         return Application::init(self::getConfig());
     }
