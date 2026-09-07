@@ -243,7 +243,7 @@ class SendFile extends AbstractPlugin
         if ($ascii === false || $ascii === null) {
             $ascii = $filename;
         }
-        $ascii = preg_replace('/[^A-Za-z0-9._\- ]/', '_', $ascii);
+        $ascii = preg_replace(['/[^A-Za-z0-9._\- ]/', '/_+/'], ['_', '_'], $ascii);
         return $ascii === '' ? 'file' : $ascii;
     }
 }
