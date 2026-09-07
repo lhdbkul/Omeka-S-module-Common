@@ -17,4 +17,16 @@ class ArrayTextarea extends \Omeka\Form\Element\ArrayTextarea
         }
         return $this;
     }
+
+    /**
+     * Skip the values that are not scalar, in particular the obsolete settings
+     * stored by an old version of a module, else the form cannot be displayed.
+     */
+    public function arrayToString($array)
+    {
+        if (is_array($array)) {
+            $array = array_filter($array, 'is_scalar');
+        }
+        return parent::arrayToString($array);
+    }
 }
